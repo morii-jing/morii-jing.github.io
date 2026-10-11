@@ -1,0 +1,2614 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark" data-lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>姜瀚泽 · 一个刚进入 AI 世界的人</title>
+<!-- favicon：内联 SVG，零请求、零额外文件；颜色跟主令牌一致 -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%232563EB'/%3E%3Ctext%20x='16'%20y='22'%20font-family='Inter,system-ui,sans-serif'%20font-size='17'%20font-weight='700'%20fill='white'%20text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E" />
+<meta name="description" content="姜瀚泽的个人主页 — 杭州电子科技大学人工智能专业新生，正在从「调包」走向「理解」。" />
+
+<!-- ===== 分享卡片（QQ / 微信 / B 站 抓取用）=====
+     部署后必须把下面 4 处 https://example.com 换成你的真实域名：
+     微信、QQ、B 站只会去抓 http(s) 的绝对地址，file:// 和相对路径一律不认。
+     分享图本体：项目目录下的 og-image.png（1200×630，标准尺寸）。
+     生成器：工作区 make-og-image.mjs + og-card.src.html，改文案后重跑即可。 -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="姜瀚泽 · Morii" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:title" content="姜瀚泽 · 一个刚进入 AI 世界的人" />
+<meta property="og:description" content="正在从「调包」走向「理解」——数学和代码并行，从头打底子。" />
+<meta property="og:url" content="https://example.com/" />
+<meta property="og:image" content="https://example.com/og-image.png" />
+<meta property="og:image:secure_url" content="https://example.com/og-image.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="姜瀚泽 · 一个刚进入 AI 世界的人" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="姜瀚泽 · 一个刚进入 AI 世界的人" />
+<meta name="twitter:description" content="正在从「调包」走向「理解」——数学和代码并行，从头打底子。" />
+<meta name="twitter:image" content="https://example.com/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script>
+/* 主题：在 CSS 解析之前把上次选择贴回 <html>，避免刷新时闪一下。
+   上次选的是 'auto'（跟随系统）或从没选过时，不写 data-theme，
+   交给下面 :root 与 html[data-theme="light"] 两套令牌 + 末尾的系统媒体查询决定。 */
+(function () {
+  var saved = null;
+  try { saved = localStorage.getItem('jh-theme'); } catch (e) {}
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+})();
+</script>
+<style>
+/* =========================================================================
+   深色叙事型 AI 新生主页（按 方案.txt 升维）
+   主色 深蓝黑 #0A0F1C · 辅色 电光蓝 #3B82F6 / 青色 #22D3EE · 强调 暖白 #FEF3C7
+   结构沿用原有的 Linear 令牌体系（表面阶梯 / hairline 细边框 / 圆角与间距阶梯），
+   只把"色"与"动效"提升到方案要求的层次：蓝青双辅色、暖白强调、悬浮上浮。
+   ========================================================================= */
+:root{
+  /* 表面阶梯（由深蓝黑逐级提亮，保留蓝调以贴合主色） */
+  --canvas:#0A0F1C;
+  --surface-1:#101828;
+  --surface-2:#141F33;
+  --surface-3:#1A263D;
+  --surface-4:#1E2B45;
+  /* 细边框（带蓝调，与主色同源） */
+  --hairline:#20304C;
+  --hairline-strong:#2E4468;
+  --hairline-tertiary:#3B5578;
+  /* 文字 */
+  --ink:#F1F5F9;
+  --ink-muted:#CBD5E1;
+  --ink-subtle:#94A3B8;
+  --ink-tertiary:#64748B;
+  /* 品牌强调：电光蓝做主，青色做辅 */
+  --primary:#3B82F6;
+  --primary-hover:#60A5FA;
+  --primary-focus:#2F6FE0;
+  --accent-blue:#3B82F6;
+  --accent-cyan:#22D3EE;
+  /* 小号青色文字专用：比 --accent-cyan 更亮，保证在深蓝黑上达到 AA 对比度 */
+  --accent-cyan-ink:#38BDF8;
+  --accent-warm:#FEF3C7;
+  --brand-secure:#7A8FB8;
+  --success:#22C55E;
+  --scrim:#000000;
+
+  /* 向后兼容别名：JS 与既有类名仍在引用 */
+  --bg:var(--canvas);
+  --bg-soft:var(--surface-1);
+  --blue:var(--primary);
+  --primary-hover-a:var(--primary-hover);
+  --cyan:var(--accent-cyan);
+  --warm:var(--accent-warm);
+  --text:var(--ink);
+  --text-dim:var(--ink-subtle);
+  --line:var(--hairline);
+  --line-strong:var(--hairline-strong);
+  --surface:var(--surface-1);
+  --surface-2-a:var(--surface-2);
+
+  /* 悬浮上浮 / 图片放大 / 按钮微放大（方案.txt「交互与动效」） */
+  --lift:3px;
+  --lift-lg:6px;
+  --shadow-card:0 10px 26px -14px rgba(0,0,0,.72);
+  --shadow-lift:0 18px 44px -16px rgba(0,0,0,.80);
+  --ease:cubic-bezier(.22,.8,.28,1);
+
+  /* 圆角阶梯 */
+  --radius-xs:4px;
+  --radius-sm:6px;
+  --radius-md:8px;
+  --radius-lg:12px;
+  --radius-xl:16px;
+  --radius-xxl:24px;
+  --radius-pill:9999px;
+  --radius-full:9999px;
+  --radius:var(--radius-lg);
+
+  /* 间距阶梯 */
+  --space-xs:8px;
+  --space-sm:12px;
+  --space-md:16px;
+  --space-lg:24px;
+  --space-xl:32px;
+  --space-xxl:48px;
+  --space-section:96px;
+
+  --font-display:"Inter","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  --font-text:var(--font-display);
+  --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+
+  --nav-h:56px;
+}
+
+/* 反向（亮色）表面：与暗色共用同一套蓝青辅色，
+   只是把表面阶梯倒过来。为保留页面原有的主题切换能力而保留。 */
+html[data-theme="light"]{
+  --canvas:#FFFFFF;
+  --surface-1:#F5F8FC;
+  --surface-2:#EDF2F9;
+  --surface-3:#E4EBF5;
+  --surface-4:#DAE3F0;
+  --hairline:#DCE4EF;
+  --hairline-strong:#C2CFE0;
+  --hairline-tertiary:#A9BBD2;
+  --ink:#0A0F1C;
+  --ink-muted:#334155;
+  --ink-subtle:#5A6B82;
+  --ink-tertiary:#8496AC;
+  --primary:#2563EB;
+  --primary-hover:#1D4ED8;
+  --primary-focus:#3B82F6;
+  --accent-blue:#2563EB;
+  --accent-cyan:#0891B2;
+  --accent-cyan-ink:#0E7490;
+  --accent-warm:#B45309;
+  --brand-secure:#7A8FB8;
+  --scrim:#000000;
+  --primary-hover-a:var(--primary-hover);
+  --shadow-card:0 10px 26px -18px rgba(15,23,42,.30);
+  --shadow-lift:0 18px 44px -20px rgba(15,23,42,.34);
+}
+
+/* 跟随系统：只在没有显式选择（<html> 上没有 data-theme）时生效。
+   显式选了 dark / light 时属性在场，这两条不会命中。 */
+@media (prefers-color-scheme:light){
+  html:not([data-theme]){
+    --canvas:#FFFFFF;
+    --surface-1:#F5F8FC;
+    --surface-2:#EDF2F9;
+    --surface-3:#E4EBF5;
+    --surface-4:#DAE3F0;
+    --hairline:#DCE4EF;
+    --hairline-strong:#C2CFE0;
+    --hairline-tertiary:#A9BBD2;
+    --ink:#0A0F1C;
+    --ink-muted:#334155;
+    --ink-subtle:#5A6B82;
+    --ink-tertiary:#8496AC;
+    --primary:#2563EB;
+    --primary-hover:#1D4ED8;
+    --primary-focus:#3B82F6;
+    --accent-blue:#2563EB;
+    --accent-cyan:#0891B2;
+    --accent-cyan-ink:#0E7490;
+    --accent-warm:#B45309;
+    --brand-secure:#7A8FB8;
+    --primary-hover-a:var(--primary-hover);
+    --shadow-card:0 10px 26px -18px rgba(15,23,42,.30);
+    --shadow-lift:0 18px 44px -20px rgba(15,23,42,.34);
+  }
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:var(--font-text);
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  letter-spacing:-.05px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--primary-focus);
+  outline-offset:2px;
+}
+code,.mono{font-family:var(--font-mono);}
+::selection{background:color-mix(in srgb,var(--primary) 35%,transparent);color:var(--ink);}
+
+.wrap{width:min(1120px,92vw);margin-inline:auto;}
+section{position:relative;padding:clamp(72px,9vw,var(--space-section)) 0;}
+
+/* ==================== 悬浮上浮 / 图片放大 / 按钮微放大 ====================
+   叠加在既有的"换底色 + 换边框色"之上，新增位移与阴影。
+   prefers-reduced-motion 时会被页面末尾的全局规则压成 0.001ms，安全。
+   ======================================================================= */
+.card,.attempt,.mini,.shot,.portrait,.contact-links a,.collection{
+  transition:transform .26s var(--ease),box-shadow .26s ease,
+             background .2s ease,border-color .2s ease;
+}
+.card:hover,.attempt:hover,.shot:hover{
+  transform:translateY(calc(var(--lift) * -1));
+  box-shadow:var(--shadow-card);
+}
+.mini:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-card);
+}
+.portrait:hover{
+  transform:translateY(calc(var(--lift) * -1));
+  box-shadow:var(--shadow-card);
+  border-color:var(--hairline-strong);
+}
+/* 缩略图 / 截图：整图轻微放大 */
+.mini img,.shot img,.capture img,.attempt img{
+  transition:transform .5s var(--ease);
+  will-change:transform;
+}
+.mini:hover img,.shot:hover img,.capture:hover img,.attempt:hover img{transform:scale(1.03);}
+.shot-inner,.capture-inner,.attempt .shot-badge,.mini{
+  overflow:hidden;
+}
+/* 按钮：轻微微放大 */
+.btn,.tool-btn{
+  transition:background .18s ease,border-color .18s ease,color .18s ease,
+             transform .18s ease,box-shadow .18s ease;
+}
+.btn:hover,.tool-btn:hover{transform:translateY(-1px);}
+.btn:active,.tool-btn:active{transform:translateY(0) scale(.985);}
+.btn-primary:hover{box-shadow:0 10px 24px -10px color-mix(in srgb,var(--primary) 78%,transparent);}
+/* 链接类入口：箭头轻移 */
+.attempt-repo:hover,.nav-links a:hover{transform:translateY(-1px);}
+.attempt-repo{transition:color .18s ease,transform .18s ease;}
+.nav-links a{transition:color .18s ease,background .18s ease,transform .18s ease;}
+/* 特色卡片用主色描边强调，并抬得更高一点 */
+.attempts-featured > .attempt:hover{
+  border-color:color-mix(in srgb,var(--primary) 55%,var(--hairline-strong));
+  transform:translateY(calc(var(--lift-lg) * -1));
+  box-shadow:var(--shadow-lift);
+}
+
+/* ============================== 科技感背景 ==============================
+   蓝图网格：颜色由 --hairline 派生，随主题自动跟随。透明度压得很低，
+   只做纹理；另外点一层极淡的蓝/青径向微光，给深蓝黑底色一点纵深。
+   ======================================================================= */
+.backdrop{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  --grid:color-mix(in srgb,var(--hairline) 72%,transparent);
+  background-image:
+    radial-gradient(58% 42% at 78% 4%,color-mix(in srgb,var(--accent-cyan) 7%,transparent),transparent 70%),
+    radial-gradient(64% 46% at 14% 10%,color-mix(in srgb,var(--accent-blue) 9%,transparent),transparent 72%),
+    linear-gradient(to right,var(--grid) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:100% 100%,100% 100%,64px 64px,64px 64px;
+  /* 向中心与底部淡出，内容区域保持干净 */
+  -webkit-mask-image:radial-gradient(125% 96% at 50% 2%,#000 6%,rgba(0,0,0,.52) 42%,rgba(0,0,0,.22) 64%,transparent 88%);
+  mask-image:radial-gradient(125% 96% at 50% 2%,#000 6%,rgba(0,0,0,.52) 42%,rgba(0,0,0,.22) 64%,transparent 88%);
+}
+/* 页面内容必须压在背景网格之上 */
+header.nav,section,footer{position:relative;z-index:1;}
+
+/* 深色大面积纯色容易有"塑料感"：叠一层约 3% 的噪点。
+   用内联 SVG feTurbulence 生成，零额外文件、零请求；浅色下自动减半。 */
+.backdrop::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  opacity:.032;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px 160px;
+}
+html[data-theme="light"] .backdrop::after{opacity:.018;}
+@media (prefers-color-scheme:light){
+  html:not([data-theme]) .backdrop::after{opacity:.018;}
+}
+/* 首屏的神经网络画布位于自己的层内，保持原有层级关系 */
+.hero #neural{z-index:0;}
+.hero .hero-inner{z-index:2;}
+.hero::before{z-index:1;}
+
+@media (max-width:640px){
+  .backdrop{background-size:100% 100%,100% 100%,44px 44px,44px 44px;}
+}
+
+/* ============================== 排版 ============================== */
+.eyebrow{
+  display:inline-block;
+  margin:0 0 var(--space-md);
+  font-size:13px;
+  font-weight:500;
+  line-height:1.3;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  color:var(--primary);
+}
+h2.section-title{
+  margin:0 0 var(--space-sm);
+  font-family:var(--font-display);
+  font-size:clamp(1.7rem,4vw,40px);
+  font-weight:600;
+  line-height:1.15;
+  letter-spacing:-1px;
+}
+.section-lead{
+  margin:0 0 var(--space-xxl);
+  max-width:56ch;
+  font-size:18px;
+  line-height:1.5;
+  letter-spacing:-.1px;
+  color:var(--ink-muted);
+}
+.accent{color:var(--accent-cyan-ink);}
+/* 全页唯一的渐变文字：首屏姓名，蓝 → 青 */
+.grad-text{
+  background:linear-gradient(96deg,var(--accent-blue) 0%,var(--accent-cyan) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+/* 极少数不支持 background-clip:text 的浏览器：退回纯色，别让名字消失 */
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .grad-text{color:var(--accent-blue);-webkit-text-fill-color:currentColor;}
+}
+
+/* ============================== 导航 ============================== */
+header.nav{
+  position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:80;
+  display:flex;align-items:center;
+  background:var(--canvas);
+  border-bottom:1px solid transparent;
+  transition:background .2s ease,border-color .2s ease,backdrop-filter .2s ease;
+}
+header.nav.scrolled{
+  background:color-mix(in srgb,var(--canvas) 86%,transparent);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  border-bottom-color:var(--hairline);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:min(1120px,92vw);margin-inline:auto;}
+.logo{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;letter-spacing:-.05px;}
+.logo .mark{
+  width:26px;height:26px;border-radius:var(--radius-sm);display:grid;place-items:center;
+  font-size:12px;font-weight:600;color:#fff;background:var(--primary);
+}
+.logo small{
+  display:block;font-size:11px;font-weight:400;letter-spacing:0;
+  color:var(--ink-subtle);
+}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0;}
+.nav-links a{
+  position:relative;padding:6px 10px;border-radius:var(--radius-sm);
+  font-size:14px;color:var(--ink-subtle);
+  transition:color .18s ease,background .18s ease;
+}
+.nav-links a:hover{color:var(--ink);background:var(--surface-1);}
+.nav-links a.active{color:var(--ink);}
+.nav-links a.active::after{
+  content:"";position:absolute;left:10px;right:10px;bottom:2px;height:1px;
+  background:var(--primary);
+}
+.nav-tools{display:flex;align-items:center;gap:6px;}
+.tool-btn{
+  height:32px;min-width:32px;padding:0 10px;cursor:pointer;
+  border-radius:var(--radius-md);border:1px solid var(--hairline);
+  background:var(--surface-1);color:var(--ink-subtle);
+  font-size:14px;font-weight:500;
+  transition:color .18s,border-color .18s,background .18s;
+}
+.tool-btn:hover{color:var(--ink);border-color:var(--hairline-strong);background:var(--surface-2);}
+.burger{display:none;}
+
+@media (max-width:820px){
+  .nav-links{
+    position:fixed;top:var(--nav-h);left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;
+    padding:12px 4vw 16px;
+    background:var(--canvas);border-bottom:1px solid var(--hairline);
+    transform:translateY(-8px);opacity:0;pointer-events:none;transition:.2s ease;
+  }
+  .nav-links.open{transform:none;opacity:1;pointer-events:auto;}
+  .nav-links a{padding:10px 8px;border-radius:var(--radius-sm);}
+  .nav-links a.active::after{left:8px;right:auto;width:1px;height:16px;bottom:12px;}
+  .burger{display:inline-flex;align-items:center;justify-content:center;}
+}
+
+/* ============================== Hero ============================== */
+.hero{
+  min-height:100svh;display:flex;align-items:center;
+  padding-top:calc(var(--nav-h) + var(--space-xxl));
+  overflow:hidden;
+}
+#neural{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+/* Linear 不要氛围光晕：这里只留一层极淡的强调色渐隐，作为页面的唯一“呼吸” */
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 6%,transparent),transparent 42%);
+}
+.hero-inner{position:relative;z-index:2;}
+/* 首屏大标题下方的纵深光：单一强调色、极低透明度、只做“深度”不做装饰。
+   数值比 Linear 允许的更保守——它反对氛围渐变，所以这里压在 7% 以内。 */
+.hero::after{
+  content:"";position:absolute;z-index:1;pointer-events:none;
+  left:50%;bottom:-22%;translate:-50% 0;
+  width:min(1040px,132%);height:min(360px,40vh);
+  background:radial-gradient(48% 48% at 50% 50%,
+    color-mix(in srgb,var(--primary) 7%,transparent) 0%,
+    color-mix(in srgb,var(--primary) 3%,transparent) 34%,
+    transparent 64%);
+}
+html[data-theme="light"] .hero::after{
+  background:radial-gradient(48% 48% at 50% 50%,
+    color-mix(in srgb,var(--primary) 7%,transparent) 0%,
+    color-mix(in srgb,var(--primary) 3%,transparent) 36%,
+    transparent 66%);
+}
+.hero h1{
+  margin:0 0 var(--space-lg);
+  font-family:var(--font-display);
+  font-size:clamp(2.4rem,7vw,80px);
+  font-weight:600;
+  line-height:1.05;
+  letter-spacing:-3px;
+}
+.hero h1 .line{display:block;}
+@media (max-width:480px){.hero h1{font-size:36px;letter-spacing:-1.2px;}}
+.hero-quote{
+  margin:0 0 var(--space-xl);
+  max-width:44ch;
+  padding-left:var(--space-md);
+  border-left:1px solid var(--hairline-strong);
+  font-size:20px;font-weight:400;line-height:1.4;letter-spacing:-.2px;
+  color:var(--ink-muted);
+}
+.hero-quote strong{color:var(--ink);font-weight:600;}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 14px;min-height:40px;
+  border-radius:var(--radius-md);border:1px solid transparent;cursor:pointer;
+  font-size:14px;font-weight:500;line-height:1.2;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+/* 按钮底色必须是较深的蓝：白字在亮蓝(#3B82F6/#60A5FA)上只有 3.7/2.5 比 1，
+   过不了 WCAG AA。所以常态 #2563EB、hover / active 更深，
+   --primary 与 --primary-hover 保留给深色底上的文字、描边、下划线使用。 */
+.btn-primary{background:#2563EB;color:#fff;}
+.btn-primary:hover{background:#1D4ED8;}
+.btn-primary:active{background:#1E40AF;box-shadow:inset 0 0 0 1px var(--primary);}
+.btn-ghost{background:var(--surface-1);border-color:var(--hairline);color:var(--ink);}
+.btn-ghost:hover{background:var(--surface-2);border-color:var(--hairline-strong);}
+.scroll-hint{
+  margin-top:var(--space-xxl);display:inline-flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--ink-subtle);
+}
+.scroll-hint .dot{
+  width:18px;height:28px;flex:none;border-radius:var(--radius-pill);
+  border:1px solid var(--hairline-strong);position:relative;
+}
+.scroll-hint .dot::after{
+  content:"";position:absolute;left:50%;top:6px;translate:-50% 0;
+  width:2px;height:5px;border-radius:2px;background:var(--primary);
+  animation:wheel 1.8s ease-in-out infinite;
+}
+@keyframes wheel{0%{opacity:0;transform:translateY(-2px);}40%{opacity:1;}100%{opacity:0;transform:translateY(9px);}}
+
+/* ============================== 关于我 ============================== */
+.about-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:var(--space-xxl);align-items:center;}
+/* 不用渐变描边：改为一级表面 + 细边框 */
+.portrait{border-radius:var(--radius-xl);padding:var(--space-lg);background:var(--surface-1);border:1px solid var(--hairline);}
+.portrait-inner{
+  border-radius:var(--radius-lg);overflow:hidden;
+  background:var(--surface-2);border:1px solid var(--hairline);
+  aspect-ratio:4/4.4;display:grid;place-items:center;text-align:center;padding:var(--space-xl);
+}
+.portrait .avatar{
+  width:96px;height:96px;border-radius:var(--radius-full,9999px);overflow:hidden;flex:none;
+  display:grid;place-items:center;
+  margin-bottom:var(--space-md);
+  /* 这层渐变只当"图还没加载出来"时的兜底底色 */
+  background:linear-gradient(135deg,var(--accent-blue),var(--accent-cyan));
+  /* 照片不适合外发光（会像一圈光斑），改用收敛的落影 + 一圈细边 */
+  box-shadow:0 10px 22px -12px rgba(0,0,0,.75);
+  border:1px solid var(--hairline-strong);
+}
+.portrait .avatar picture{display:block;width:100%;height:100%;}
+.portrait .avatar img{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  /* 原图是正方形，等比裁成圆形，不拉伸 */
+  border-radius:inherit;display:block;
+}
+.portrait .id-name{font-size:22px;font-weight:500;letter-spacing:-.4px;}
+.portrait .id-sub{font-size:13px;color:var(--ink-subtle);font-family:var(--font-mono);}
+.avatar-ring{display:none;}
+.about-facts{list-style:none;padding:0;margin:0 0 var(--space-lg);display:grid;gap:14px;}
+.about-facts li{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--ink-subtle);}
+.about-facts li b{color:var(--ink);font-weight:600;}
+.about-facts .k{
+  flex:none;margin-top:2px;padding:2px 8px;
+  border-radius:var(--radius-sm);border:1px solid var(--hairline);
+  background:var(--surface-1);color:var(--ink-muted);
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0;
+}
+.tags{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none;}
+.tag{
+  padding:2px 8px;border-radius:var(--radius-pill);
+  background:var(--surface-2);border:1px solid var(--hairline);
+  color:var(--ink-muted);font-size:12px;font-weight:400;
+  transition:color .18s,border-color .18s,background .18s;
+}
+.tag:hover{color:var(--ink);background:var(--surface-3);border-color:var(--hairline-strong);}
+
+/* ============================== 时间线 ============================== */
+.timeline{position:relative;margin-top:var(--space-xs);padding-left:34px;}
+.timeline::before{
+  content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;
+  background:var(--hairline);
+}
+.tl-item{position:relative;padding-bottom:var(--space-xxl);}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item::before{
+  content:"";position:absolute;left:-34px;top:6px;width:11px;height:11px;border-radius:var(--radius-pill);
+  background:var(--canvas);border:1px solid var(--hairline-strong);
+  transition:background .24s ease,border-color .24s ease,box-shadow .24s ease,transform .24s ease;
+}
+.tl-item:hover::before{
+  background:var(--accent-cyan);border-color:var(--accent-cyan);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent-cyan) 18%,transparent);
+  transform:scale(1.12);
+}
+.tl-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:6px;}
+.tl-num{font-family:var(--font-mono);font-size:13px;color:var(--accent-cyan-ink);}
+.tl-date{font-family:var(--font-mono);font-size:13px;color:var(--ink-tertiary);}
+.tl-title{margin:0 0 6px;font-size:22px;font-weight:500;line-height:1.25;letter-spacing:-.4px;}
+.tl-text{margin:0;max-width:60ch;font-size:14px;line-height:1.5;color:var(--ink-subtle);}
+.tl-item.pending .tl-title{color:var(--ink-muted);}
+.tl-item.pending .tl-text{font-style:italic;}
+
+/* 起点：时间线（左） + 项目截图（右） */
+.journey-grid{display:block;}
+/* product-screenshot-card：surface-1 + 16px 圆角 + 24px 内边距，不用发光边框 */
+.shot{background:var(--surface-1);border:1px solid var(--hairline);border-radius:var(--radius-xl);padding:var(--space-lg);transition:border-color .2s ease,background .2s ease;}
+.shot:hover{border-color:var(--hairline-strong);background:var(--surface-2);}
+.shot-inner{position:relative;display:block;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--hairline);background:#000;}
+.shot img{width:100%;height:auto;display:block;}
+.figcaption{margin:var(--space-md) 0 0;font-size:12px;line-height:1.4;color:var(--ink-subtle);}
+.figcaption .tagline{
+  display:block;margin-bottom:4px;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0;
+  color:var(--ink-tertiary);text-transform:uppercase;
+}
+
+/* 尝试卡里的截图：与窗口边框风格一致 */
+.capture{margin:0 0 var(--space-md);}
+.capture-inner{display:block;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--hairline);background:#000;}
+.capture img{width:100%;height:auto;display:block;}
+.capture figcaption{margin-top:10px;font-size:13px;line-height:1.5;color:var(--ink-subtle);}
+
+/* ============================== 我的尝试 ============================== */
+.attempts-featured{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:var(--space-lg);margin-bottom:var(--space-xl);
+}
+/* 与截图卡一致的 product-screenshot-card 规格 */
+.attempts-featured > .attempt{align-items:stretch;}
+.attempt{
+  display:flex;flex-direction:column;height:100%;
+  padding:var(--space-lg);
+  border-radius:var(--radius-xl);border:1px solid var(--hairline);background:var(--surface-1);
+  transition:background .2s ease,border-color .2s ease;
+}
+.attempt:hover{background:var(--surface-2);border-color:var(--hairline-strong);}
+.attempt .thumb{
+  height:150px;margin-bottom:var(--space-lg);
+  display:grid;place-items:center;
+  border-radius:var(--radius-lg);border:1px solid var(--hairline);background:var(--surface-2);
+  font-family:var(--font-mono);font-size:26px;color:var(--primary);
+}
+.attempt .shot-badge{margin-bottom:var(--space-md);border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--hairline);background:#000;}
+.attempt .shot-badge img{width:100%;height:auto;display:block;}
+.attempt-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:8px;}
+.attempt-num{font-family:var(--font-mono);font-size:13px;color:var(--primary);}
+.attempt h3{margin:0 0 10px;font-size:22px;font-weight:500;line-height:1.25;letter-spacing:-.4px;}
+.attempt p{margin:0 0 var(--space-md);font-size:14px;line-height:1.6;color:var(--ink-subtle);}
+.attempt-files{
+  margin:0 0 var(--space-md);padding:0;list-style:none;
+  display:flex;flex-wrap:wrap;gap:6px;
+}
+.attempt-repo{
+  margin-top:auto;display:inline-flex;align-items:center;gap:6px;
+  font-size:14px;font-weight:500;color:var(--primary);
+}
+.attempt-repo:hover{color:var(--primary-hover);}
+
+/* 收纳集 */
+.collection{border:1px solid var(--hairline);border-radius:var(--radius-lg);background:var(--surface-1);overflow:hidden;}
+.collection > summary{
+  list-style:none;cursor:pointer;user-select:none;
+  display:flex;align-items:center;gap:12px;
+  padding:var(--space-md) var(--space-lg);min-height:52px;
+  transition:background .2s ease;
+}
+.collection > summary::-webkit-details-marker{display:none;}
+.collection > summary:hover{background:var(--surface-2);}
+.collection > summary:focus-visible{outline:2px solid var(--primary-focus);outline-offset:-2px;}
+.collection .col-mark{
+  width:22px;height:22px;flex:none;display:grid;place-items:center;
+  border-radius:var(--radius-xs);background:var(--surface-3);
+  color:var(--ink-muted);font-size:14px;line-height:1;
+  transition:rotate .2s ease;
+}
+.collection[open] .col-mark{rotate:90deg;}
+.collection .col-title{font-size:16px;font-weight:500;letter-spacing:-.05px;color:var(--ink);}
+.collection .col-count{
+  margin-left:auto;padding:2px 8px;border-radius:var(--radius-pill);
+  background:var(--surface-2);border:1px solid var(--hairline);
+  font-family:var(--font-mono);font-size:11px;color:var(--ink-subtle);white-space:nowrap;
+}
+.collection-body{border-top:1px solid var(--hairline);padding:var(--space-lg);}
+.collection-lead{margin:0 0 var(--space-lg);font-size:14px;color:var(--ink-subtle);}
+/* 展开后一次性全部展示：多列网格，不做折叠 */
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-md);}
+.mini{
+  padding:var(--space-md);
+  border-radius:var(--radius-lg);border:1px solid var(--hairline);background:var(--surface-2);
+  transition:background .2s ease,border-color .2s ease;
+}
+.mini:hover{background:var(--surface-3);border-color:var(--hairline-strong);}
+.mini h4{margin:0 0 6px;font-size:14px;font-weight:500;line-height:1.3;color:var(--ink);}
+.mini p{margin:0 0 10px;font-size:13px;line-height:1.55;color:var(--ink-subtle);}
+
+/* ============================== 卡片 ============================== */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:var(--space-lg);}
+.card{
+  position:relative;padding:var(--space-lg);
+  border-radius:var(--radius-lg);border:1px solid var(--hairline);
+  background:var(--surface-1);
+  transition:background .2s ease,border-color .2s ease;
+}
+.card:hover{background:var(--surface-2);border-color:var(--hairline-strong);}
+.card .thumb{
+  height:104px;margin-bottom:var(--space-md);
+  display:grid;place-items:center;
+  border-radius:var(--radius-md);border:1px solid var(--hairline);
+  background:var(--surface-2);
+  font-family:var(--font-mono);font-size:20px;color:var(--primary);
+}
+.card h3{margin:0 0 8px;font-size:22px;font-weight:500;line-height:1.25;letter-spacing:-.4px;}
+.card p{margin:0;font-size:14px;line-height:1.5;color:var(--ink-subtle);}
+.card .card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--space-md);}
+.chip{
+  padding:2px 8px;border-radius:var(--radius-pill);
+  background:var(--surface-2);border:1px solid var(--hairline);
+  color:var(--ink-muted);font-family:var(--font-mono);font-size:11px;
+}
+
+/* ============================== 工具进度条 ============================== */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-lg);}
+.bar{margin-bottom:var(--space-lg);}
+.bar:last-child{margin-bottom:0;}
+.bar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-size:14px;}
+.bar-top .name{font-weight:500;color:var(--ink);}
+.bar-top .name em{font-style:normal;margin-left:8px;font-size:13px;font-weight:400;color:var(--ink-subtle);}
+.bar-top .pct{font-family:var(--font-mono);font-size:12px;color:var(--accent-cyan-ink);}
+.bar-track{height:6px;border-radius:var(--radius-pill);background:var(--surface-3);overflow:hidden;}
+/* 卡片顶部的「上次更新 2026·10 · +3%」小标注 */
+.bar-note{
+  margin:-2px 0 var(--space-lg);font-size:12px;color:var(--ink-tertiary);
+}
+.bar-note .mono{color:var(--accent-cyan-ink);}
+/* 进度填充：蓝 → 青渐变，配一层极淡的同色辉光。
+   宽度来源是 HTML 上的 --w（例如 style="--w:30%"）：
+     · JS 跑起来（html.js-anim）→ 起始 0，滚进视口后长到 --w；
+     · JS 没跑/报错 → 下面第二条规则直接顶到 --w，禁用 JS 也看得见。
+   两个数字必须一致：.pct 的文字 与 .bar-fill 的 --w / data-pct，
+   由 html-check.mjs 逐条校验 —— 防的就是以前"标签 70% / 填充 45%"那种打架。 */
+.bar-fill{
+  height:100%;width:0;border-radius:var(--radius-pill);
+  background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan));
+  box-shadow:0 0 12px -2px color-mix(in srgb,var(--accent-cyan) 55%,transparent);
+  transition:width 1.1s var(--ease);
+}
+:where(html:not(.js-anim)) .bar-fill{width:var(--w,0%);}
+.note{margin-top:var(--space-lg);font-size:14px;font-style:italic;color:var(--accent-warm);}
+
+/* ================= 学习路线（「正在学」顶部的一条线） =================
+   复用现有令牌：走过的点用主蓝、当前位置用青色并呼吸、未到用弱化色。
+   不引入新的字体/间距体系，只是在既有卡片里排一条横向路径。 */
+.path{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 var(--space-xl);padding:0;list-style:none;}
+.path li{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-tertiary);}
+.path li .dot{width:8px;height:8px;flex:none;border-radius:var(--radius-pill);background:var(--hairline-strong);}
+.path li.done{color:var(--ink-muted);}
+.path li.done .dot{background:var(--primary);}
+.path li.now{color:var(--ink);font-weight:500;}
+.path li.now .dot{background:var(--accent-cyan);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent-cyan) 20%,transparent);}
+.path li:not(:last-child)::after{
+  content:"";width:26px;height:1px;
+  background:linear-gradient(90deg,var(--hairline-strong),color-mix(in srgb,var(--accent-cyan) 45%,var(--hairline-strong)));
+}
+@media (prefers-reduced-motion:no-preference){
+  .path li.now .dot{animation:path-pulse 2.6s ease-in-out infinite;}
+  @keyframes path-pulse{
+    0%,100%{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent-cyan) 16%,transparent);}
+    50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--accent-cyan) 6%,transparent);}
+  }
+}
+/* 时间线的 NOW 节点：一直在闪的小点，一眼看到"还在长" */
+.tl-item.now::before{
+  background:var(--accent-cyan);border-color:var(--accent-cyan);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent-cyan) 20%,transparent);
+}
+.tl-item.now .tl-num{color:var(--accent-cyan);}
+.tl-item.now .tl-title{color:var(--ink);font-weight:600;}
+@media (prefers-reduced-motion:no-preference){
+  .tl-item.now::before{animation:now-pulse 2.4s ease-in-out infinite;}
+  @keyframes now-pulse{
+    0%,100%{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent-cyan) 20%,transparent);}
+    50%{box-shadow:0 0 0 8px color-mix(in srgb,var(--accent-cyan) 5%,transparent);}
+  }
+}
+/* 项目卡里的「技术点 / 踩过的坑 / 下一步」 */
+.attempt-detail{margin:0 0 var(--space-md);padding:0;list-style:none;display:grid;gap:8px;}
+.attempt-detail li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;
+  font-size:13px;line-height:1.55;color:var(--ink-subtle);}
+.attempt-detail .k{
+  flex:none;margin-top:1px;padding:2px 7px;border-radius:var(--radius-sm);
+  border:1px solid var(--hairline);background:var(--surface-2);color:var(--ink-muted);
+  font-family:var(--font-mono);font-size:11px;white-space:nowrap;
+}
+/* 运行命令 + 复制按钮 */
+.cmd{
+  display:flex;align-items:center;gap:8px;margin:0 0 var(--space-md);
+  padding:8px 10px;border-radius:var(--radius-md);
+  border:1px solid var(--hairline);background:var(--surface-2);
+}
+.cmd code{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;
+  font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);}
+.cmd .do{
+  flex:none;padding:4px 9px;cursor:pointer;
+  border-radius:var(--radius-sm);border:1px solid var(--hairline);background:var(--surface-3);
+  color:var(--ink-muted);font-family:var(--font-mono);font-size:11px;
+  transition:color .18s,border-color .18s,background .18s,transform .18s;
+}
+.cmd .do:hover{color:var(--ink);border-color:var(--hairline-strong);transform:translateY(-1px);}
+/* 收纳集每项的一句说明 */
+.mini .mini-what{margin:0 0 8px;font-size:12px;line-height:1.5;color:var(--ink-tertiary);}
+.mini .mini-what b{color:var(--ink-subtle);font-weight:500;}
+/* 在读的书 / 课 */
+.reading{display:grid;gap:10px;padding:0;margin:0;list-style:none;}
+.reading li{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;
+  padding:10px 12px;border-radius:var(--radius-md);
+  border:1px solid var(--hairline);background:var(--surface-1);}
+.reading .book{font-size:14px;color:var(--ink);}
+.reading .st{
+  padding:2px 8px;border-radius:var(--radius-pill);border:1px solid var(--hairline);
+  background:var(--surface-2);font-family:var(--font-mono);font-size:11px;color:var(--ink-subtle);
+}
+.reading .st.on{color:var(--accent-cyan-ink);border-color:color-mix(in srgb,var(--accent-cyan) 45%,var(--hairline));}
+.reading .st.done{color:var(--success);border-color:color-mix(in srgb,var(--success) 40%,var(--hairline));}
+.reading .why{margin-left:auto;font-size:12px;color:var(--ink-tertiary);}
+
+/* ==================== 截图：点击放大（轻量 lightbox） ====================
+   点图片 = 在本页放大看；Ctrl/⌘/中键点 = 照旧去仓库。
+   lightbox 只长这样：一层遮罩 + 一张图，ESC / 点背景 / 点关闭都能退。 */
+.zoom-hint{
+  display:inline-block;margin-top:8px;
+  font-family:var(--font-mono);font-size:11px;color:var(--ink-tertiary);
+  pointer-events:none;
+}
+.shot-badge, .capture{position:relative;}
+.shot-badge a[data-zoom], .capture a[data-zoom]{cursor:zoom-in;display:block;}
+#lightbox{
+  position:fixed;inset:0;z-index:150;
+  display:grid;place-items:center;
+  padding:clamp(12px,3vw,40px);
+  background:color-mix(in srgb,var(--scrim) 82%,transparent);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  opacity:0;visibility:hidden;transition:opacity .22s ease,visibility .22s ease;
+}
+#lightbox[hidden]{display:none;}
+#lightbox.open{opacity:1;visibility:visible;}
+#lightbox img{
+  max-width:100%;max-height:calc(100svh - 2 * clamp(12px,3vw,40px));
+  width:auto;height:auto;
+  border-radius:var(--radius-lg);border:1px solid var(--hairline-strong);
+  background:#000;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.9);
+}
+#lightbox .close{
+  position:absolute;top:clamp(10px,2vw,20px);right:clamp(10px,2vw,20px);
+  width:40px;height:40px;cursor:pointer;font-size:17px;
+  display:grid;place-items:center;
+  border-radius:var(--radius-md);border:1px solid var(--hairline-strong);
+  background:var(--surface-1);color:var(--ink);
+  transition:background .18s,transform .18s;
+}
+#lightbox .close:hover{background:var(--surface-3);transform:translateY(-1px);}
+#lightbox .cap{
+  position:absolute;left:0;right:0;bottom:clamp(10px,2vw,22px);
+  text-align:center;font-size:12px;color:var(--ink-subtle);
+  font-family:var(--font-mono);pointer-events:none;
+}
+
+/* ==================== 踩坑笔记：轮播（不引库） ====================
+   原生 button + 少量 JS；键盘可达；悬停/聚焦/页面不可见时自动暂停。
+   横向轨道由 JS 改 transform 位移，GPU 合成，滑动过程不触发重排。 */
+   原生 button + 少量 JS；键盘可达；悬停/聚焦/页面不可见时自动暂停。
+   横向轨道由 JS 改 transform 位移，GPU 合成，滑动过程不触发重排。 */
+.carousel{
+  border:1px solid var(--hairline);border-radius:var(--radius-xl);
+  background:var(--surface-1);overflow:hidden;
+}
+.car-track{
+  display:flex;
+  transition:transform .45s var(--ease);
+}
+.car-slide{
+  flex:0 0 100%;min-width:0;
+  padding:var(--space-xl) var(--space-xl) var(--space-lg);
+}
+.car-k{
+  display:inline-block;margin-bottom:10px;
+  font-family:var(--font-mono);font-size:13px;color:var(--accent-cyan-ink);
+}
+.car-slide h3{margin:0 0 10px;font-size:22px;font-weight:500;line-height:1.3;letter-spacing:-.4px;}
+.car-slide p{margin:0;max-width:62ch;font-size:14px;line-height:1.65;color:var(--ink-subtle);}
+.car-bar{
+  display:flex;align-items:center;gap:10px;
+  padding:var(--space-md) var(--space-xl);
+  border-top:1px solid var(--hairline);background:var(--surface-2);
+}
+.car-btn{
+  width:34px;height:34px;flex:none;cursor:pointer;
+  display:grid;place-items:center;
+  border-radius:var(--radius-md);border:1px solid var(--hairline);
+  background:var(--surface-1);color:var(--ink-muted);font-size:15px;
+  transition:color .18s,border-color .18s,background .18s,transform .18s;
+}
+.car-btn:hover{color:var(--ink);border-color:var(--hairline-strong);background:var(--surface-3);transform:translateY(-1px);}
+.car-btn:active{transform:translateY(0) scale(.98);}
+.car-dots{display:flex;align-items:center;gap:6px;}
+.car-dot{
+  width:8px;height:8px;padding:0;cursor:pointer;
+  border-radius:var(--radius-pill);border:1px solid var(--hairline-strong);
+  background:transparent;
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.car-dot:hover{transform:scale(1.25);}
+.car-dot[aria-selected="true"]{background:var(--accent-cyan);border-color:var(--accent-cyan);}
+.car-count{margin-left:auto;font-size:12px;color:var(--ink-tertiary);white-space:nowrap;}
+
+/* ==================== 3D 地球（纯 CSS，无库） ====================
+   做法：一个球心径向渐变 + 若干条带倾角的"经线环"，整体绕 Y 轴转。
+   GPU 合成、不跑 JS；prefers-reduced-motion 时停止旋转。
+   aria-hidden：纯装饰，不承载信息。 */
+.globe-wrap{
+  display:flex;align-items:center;gap:var(--space-xl);
+  margin:0 0 var(--space-xl);
+}
+.globe{
+  --size:150px;
+  position:relative;width:var(--size);height:var(--size);flex:none;
+  perspective:620px;
+}
+.globe .ball{
+  position:absolute;inset:0;border-radius:var(--radius-pill);
+  background:
+    radial-gradient(circle at 34% 30%,color-mix(in srgb,var(--accent-cyan) 42%,transparent),transparent 62%),
+    radial-gradient(circle at 62% 72%,color-mix(in srgb,var(--accent-blue) 40%,transparent),transparent 66%),
+    radial-gradient(circle at 50% 50%,var(--surface-3) 0%,var(--surface-1) 72%,var(--canvas) 100%);
+  box-shadow:inset 0 0 26px -6px color-mix(in srgb,var(--accent-cyan) 45%,transparent);
+  border:1px solid var(--hairline-strong);
+}
+.globe .rings{
+  position:absolute;inset:0;
+  transform-style:preserve-3d;
+  transform:rotateX(-16deg);
+}
+.globe .rings i{
+  position:absolute;inset:0;border-radius:var(--radius-pill);
+  border:1px solid color-mix(in srgb,var(--accent-cyan) 30%,transparent);
+}
+.globe .rings i:nth-child(2){transform:rotateY(30deg);border-color:color-mix(in srgb,var(--accent-blue) 34%,transparent);}
+.globe .rings i:nth-child(3){transform:rotateY(60deg);}
+.globe .rings i:nth-child(4){transform:rotateY(90deg);border-color:color-mix(in srgb,var(--accent-blue) 34%,transparent);}
+.globe .rings i:nth-child(5){transform:rotateY(120deg);}
+.globe .rings i:nth-child(6){transform:rotateY(150deg);border-color:color-mix(in srgb,var(--accent-blue) 34%,transparent);}
+.globe .rings i:nth-child(1){transform:rotateY(0deg);}
+.globe .core{
+  position:absolute;left:50%;top:50%;translate:-50% -50%;
+  width:10px;height:10px;border-radius:var(--radius-pill);
+  background:var(--accent-cyan);
+  box-shadow:0 0 0 5px color-mix(in srgb,var(--accent-cyan) 16%,transparent);
+}
+@media (prefers-reduced-motion:no-preference){
+  .globe .rings{animation:globe-spin 28s linear infinite;}
+  @keyframes globe-spin{from{transform:rotateX(-16deg) rotateY(0deg);}to{transform:rotateX(-16deg) rotateY(360deg);}}
+}
+.globe-note{max-width:46ch;}
+.globe-note h3{margin:0 0 8px;font-size:20px;font-weight:500;letter-spacing:-.3px;}
+.globe-note p{margin:0;font-size:14px;line-height:1.6;color:var(--ink-subtle);}
+@media (max-width:620px){
+  .globe-wrap{flex-direction:column;align-items:flex-start;gap:var(--space-lg);}
+  .globe{--size:120px;}
+}
+
+/* ==================== 粒子烟雾（overlay，可按需加载） ====================
+   独立 canvas，pointer-events:none、z-index 在内容之下；
+   只在视口可见且未降级时跑 requestAnimationFrame。
+   默认不启用：JS 判定非移动端、非 reduced-motion、硬件并发足够时才挂载。 */
+#smoke{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:.5;
+}
+
+/* ==================== 加载遮罩 ====================
+   约定：HTML 里默认 hidden，只有 JS 真的跑起来才摘掉 hidden —— 这样
+   禁用 JS 时根本不会出现遮罩（不会白屏、不会卡住）。
+   prefers-reduced-motion 下 JS 会直接跳过它。 */
+#boot{
+  position:fixed;inset:0;z-index:200;
+  display:grid;place-items:center;
+  background:var(--canvas);
+  transition:opacity .45s ease,visibility .45s ease;
+}
+#boot[hidden]{display:none;}
+#boot.done{opacity:0;visibility:hidden;}
+.boot-inner{display:grid;justify-items:center;gap:14px;}
+.boot-mark{
+  width:44px;height:44px;border-radius:var(--radius-md);
+  background:linear-gradient(135deg,var(--accent-blue),var(--accent-cyan));
+  display:grid;place-items:center;
+  font-size:21px;font-weight:700;color:#04101F;
+}
+.boot-text{font-family:var(--font-mono);font-size:12px;color:var(--ink-subtle);letter-spacing:.4px;}
+.boot-bar{width:132px;height:2px;border-radius:var(--radius-pill);background:var(--surface-3);overflow:hidden;}
+.boot-bar span{
+  display:block;height:100%;width:40%;border-radius:var(--radius-pill);
+  background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan));
+}
+@media (prefers-reduced-motion:no-preference){
+  .boot-bar span{animation:boot-run 1.1s ease-in-out infinite;}
+  @keyframes boot-run{0%{transform:translateX(-100%);}100%{transform:translateX(250%);}}
+}
+
+/* ============================== 联系 ============================== */
+#contact{text-align:center;}
+#contact .section-lead{margin-inline:auto;}
+.contact-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 0 var(--space-xxl);padding:0;list-style:none;}
+.contact-links a{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:12px 14px;min-height:40px;
+  border-radius:var(--radius-lg);border:1px solid var(--hairline);background:var(--surface-1);
+  transition:background .2s ease,border-color .2s ease;
+}
+.contact-links a:hover{background:var(--surface-2);border-color:var(--hairline-strong);}
+.contact-links .ico{
+  width:28px;height:28px;flex:none;display:grid;place-items:center;
+  border-radius:var(--radius-sm);
+  background:var(--surface-3);border:1px solid var(--hairline);
+  color:var(--ink-muted);font-size:12px;font-weight:600;
+}
+.contact-links .lbl{display:block;font-size:12px;letter-spacing:0;color:var(--ink-tertiary);text-transform:uppercase;line-height:1.2;}
+.contact-links .val{display:block;font-family:var(--font-mono);font-size:13px;color:var(--ink);}
+form.contact-form{
+  max-width:560px;margin:0 auto;text-align:left;
+  padding:var(--space-lg);
+  border-radius:var(--radius-lg);border:1px solid var(--hairline);background:var(--surface-1);
+}
+.field{margin-bottom:var(--space-md);}
+.field label{display:block;margin-bottom:6px;font-size:12px;letter-spacing:0;text-transform:uppercase;color:var(--ink-subtle);}
+.field input,.field textarea{
+  width:100%;min-height:40px;padding:8px 12px;
+  border-radius:var(--radius-md);border:1px solid var(--hairline);
+  background:var(--surface-2);color:var(--ink);
+  font-size:16px;font-family:var(--font-text);outline:none;resize:vertical;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-tertiary);}
+.field input:focus,.field textarea:focus{
+  border-color:var(--primary-focus);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--primary-focus) 50%,transparent);
+}
+form.contact-form .btn{width:100%;justify-content:center;margin-top:var(--space-xs);}
+.form-msg{margin:var(--space-sm) 0 0;min-height:1.2em;font-size:14px;color:var(--primary-hover);}
+
+footer{
+  padding:var(--space-xxl) 0;
+  border-top:1px solid var(--hairline);
+  text-align:center;font-size:12px;line-height:1.4;color:var(--ink-subtle);
+}
+footer .mono{color:var(--ink-tertiary);}
+
+/* ============================== 返回顶部 ============================== */
+#toTop{
+  position:fixed;right:clamp(14px,3vw,24px);bottom:clamp(14px,3vw,24px);z-index:70;
+  width:40px;height:40px;border-radius:var(--radius-md);cursor:pointer;
+  display:grid;place-items:center;font-size:15px;
+  background:var(--surface-1);border:1px solid var(--hairline);color:var(--ink);
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:opacity .2s,transform .2s,background .2s,border-color .2s;
+}
+#toTop.show{opacity:1;pointer-events:auto;transform:none;}
+#toTop:hover{background:var(--surface-2);border-color:var(--hairline-strong);}
+
+/* ============================== 滚动进场 ==============================
+   关键：默认必须"可见"。只有 JS 真的跑起来（给 <html> 加上 js-anim），
+   才把待进场的元素收起来做淡入。
+   这样即使脚本被拦截 / 报错 / 加载失败，页面内容依然完整可读，
+   不会出现"白屏但源码里有字"的情况。
+   ==================================================================== */
+.reveal{opacity:1;transform:none;}
+html.js-anim .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;}
+html.js-anim .reveal.visible{opacity:1;transform:none;}
+/* 兜底：观察器不可用或未触发时，仍要保证内容可见 */
+html.no-observer .reveal{opacity:1 !important;transform:none !important;}
+html.js-anim .reveal.d1{transition-delay:.06s;}
+html.js-anim .reveal.d2{transition-delay:.12s;}
+html.js-anim .reveal.d3{transition-delay:.18s;}
+
+@media (max-width:880px){
+  .about-grid{grid-template-columns:1fr;gap:var(--space-xl);}
+  .portrait{max-width:340px;margin-inline:auto;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+<!-- 粒子烟雾：低透明度、pointer-events:none，压在内容之下。
+     只有 JS 判定"非移动端 + 没开 reduced-motion + 机器扛得住"时才创建粒子。 -->
+<canvas id="smoke" aria-hidden="true"></canvas>
+
+<!-- 加载遮罩：默认 hidden，靠下面的内联脚本决定是否显示，
+     这样禁用 JS / 老浏览器 时不会出现"永远卡住的遮罩"。 -->
+<div id="boot" hidden>
+  <div class="boot-inner">
+    <div class="boot-mark">J</div>
+    <div class="boot-text">正在加载 / loading</div>
+    <div class="boot-bar"><span></span></div>
+  </div>
+</div>
+<script>
+/* 只在 JS 可用、且当前会话是第一次到达时才显示遮罩。
+   放在 <body> 之后立刻执行：此时才摘掉 hidden，所以没有 JS 就永远看不到它。
+   sessionStorage 记忆用来避免每次刷新都闪一下。 */
+(function () {
+  var boot = document.getElementById('boot');
+  if (!boot) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var seen = false;
+  try { seen = sessionStorage.getItem('jh-booted') === '1'; } catch (e) {}
+  if (reduce || seen) return;
+  try { sessionStorage.setItem('jh-booted', '1'); } catch (e) {}
+  boot.removeAttribute('hidden');
+  boot.dataset.active = '1';
+  window.__bootGraceful = true;
+})();
+</script>
+<div class="backdrop" aria-hidden="true"></div>
+
+<!-- ============ 顶部导航 ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#hero" aria-label="回到顶部">
+      <span class="mark">J</span>
+      <span>姜瀚泽<small>Morii · AI</small></span>
+    </a>
+
+    <nav>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" data-i18n="nav.about">关于</a></li>
+        <li><a href="#now" data-i18n="nav.now">在做</a></li>
+        <li><a href="#log" data-i18n="nav.log">日志</a></li>
+        <li><a href="#journey" data-i18n="nav.journey">起点</a></li>
+        <li><a href="#reading" data-i18n="nav.reading">在读</a></li>
+        <li><a href="#learning" data-i18n="nav.learning">正在学</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">联系</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-tools">
+      <button class="tool-btn" id="langBtn" title="中英文切换 / Switch language">中文 / EN</button>
+      <button class="tool-btn" id="themeBtn" title="亮色 / 暗色主题">
+        <span id="themeIcon">☾</span>
+      </button>
+      <button class="tool-btn burger" id="burger" aria-label="菜单" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 首屏 Hero ============ -->
+<section class="hero" id="hero">
+  <canvas id="neural" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <p class="eyebrow reveal" data-i18n="hero.eyebrow">Hangzhou Dianzi University · Artificial Intelligence</p>
+    <h1>
+      <span class="line reveal" data-i18n="hero.hello">你好，我是</span>
+      <span class="line grad-text reveal d1" data-i18n="hero.name">姜瀚泽</span>
+    </h1>
+    <p class="hero-quote reveal d2" data-i18n="hero.quote">
+      “一个刚进入 AI 世界的人，正在从<strong>‘调包’</strong>走向<strong>‘理解’</strong>。”
+    </p>
+    <div class="hero-actions reveal d3">
+      <a class="btn btn-primary" href="#learning" data-i18n="hero.btn1">看看我在学什么 →</a>
+      <a class="btn btn-ghost" href="#contact" data-i18n="hero.btn2">联系我</a>
+    </div>
+    <p class="scroll-hint reveal d3">
+      <span class="dot" aria-hidden="true"></span>
+      <span data-i18n="hero.scroll">↓ 向下滚动，三分钟认识我</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============ 关于我 ============ -->
+<section id="about">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="about.eyebrow">About</p>
+    <h2 class="section-title reveal" data-i18n="about.title">关于我</h2>
+    <p class="section-lead reveal d1" data-i18n="about.lead">刚入门 AI，数学和代码一起学。对模型、数据和工具都很好奇。</p>
+
+    <div class="about-grid">
+      <div class="portrait reveal">
+        <span class="avatar-ring" aria-hidden="true"></span>
+        <!-- 头像：圆形裁切（原图 1080×1080 正方形），显示 96px，图给 288px 供高 DPI -->
+        <div class="portrait-inner">
+          <div class="avatar">
+            <picture>
+              <source srcset="avatar.webp" type="image/webp" />
+              <img src="avatar.png" width="288" height="288"
+                   alt="姜瀚泽的头像：暮色里的云与树影" loading="lazy" decoding="async" />
+            </picture>
+          </div>
+          <div class="id-name">姜瀚泽</div>
+          <div class="id-sub mono">morii_jiang</div>
+        </div>
+      </div>
+
+      <div>
+        <ul class="about-facts">
+          <li class="reveal d1"><span class="k">SCHOOL</span><span data-i18n="about.school"><b>杭州电子科技大学</b> · 人工智能专业 · 2026 级</span></li>
+          <li class="reveal d2"><span class="k">FOCUS</span><span data-i18n="about.focus">C 语言与 Python 并行推进，高数 / 线代慢慢啃；比起调通一个包，更想弄懂它为什么有效。</span></li>
+          <li class="reveal d3"><span class="k">NOW</span><span data-i18n="about.now">把零散的知识写成代码，把写下的代码放进 <b>Gitee</b> 仓库里长成自己的小花园。</span></li>
+          <li class="reveal d3"><span class="k">WEAK</span><span data-i18n="about.weak">老实说：指针和数组的边界我还没真搞明白；递归只会在纸上推；英文报错得靠查。</span></li>
+        </ul>
+
+        <ul class="tags reveal d3">
+          <li class="tag" data-i18n="about.tag1">「好奇」</li>
+          <li class="tag" data-i18n="about.tag2">「不怕试错」</li>
+          <li class="tag" data-i18n="about.tag3">「正在打基础」</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 现在在做 ============ -->
+<section id="now">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="now.eyebrow">Now</p>
+    <h2 class="section-title reveal" data-i18n="now.title">现在在做</h2>
+    <p class="section-lead reveal d1" data-i18n="now.lead">这一栏比任何动画都更能说明我在哪：写一行就更新一行。</p>
+
+    <article class="card reveal d1" style="max-width:720px">
+      <div class="attempt-meta">
+        <span class="attempt-num">2026 · 10</span>
+        <span class="chip" data-i18n="now.chip">进行中</span>
+      </div>
+      <h3 data-i18n="now.head">给扫雷的自动展开收尾</h3>
+      <ul class="about-facts" style="margin:var(--space-md) 0 0">
+        <li><span class="k" data-i18n="now.kDoing">在做</span><span data-i18n="now.doing">把「一次多翻几格」从随机捎带改成只看真正可翻的邻居，消掉原来的死循环。</span></li>
+        <li><span class="k" data-i18n="now.kReading">在读</span><span data-i18n="now.reading">《C 程序设计语言》第 4 章（函数与程序结构），配着课件慢慢啃。</span></li>
+        <li><span class="k" data-i18n="now.kStuck">卡在</span><span data-i18n="now.stuck">指针和数组的边界；还有 <b>count()</b> 里那个越界读——靠外圈全填 <b>'0'</b> 才碰巧得出对的结果。</span></li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ============ 学习日志 ============ -->
+<section id="log">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="log.eyebrow">Log</p>
+    <h2 class="section-title reveal" data-i18n="log.title">学习日志</h2>
+    <p class="section-lead reveal d1" data-i18n="log.lead">只记真发生过的事。一条日志一篇小事，写不出细节就不写。</p>
+
+    <article class="tl-item reveal" style="padding-bottom:0">
+      <div class="tl-head">
+        <span class="tl-num">LOG 001</span>
+        <span class="tl-date">2026.10.08</span>
+      </div>
+      <h3 class="tl-title" data-i18n="log1.title">我怎么确认一个扫雷不会死循环</h3>
+      <p class="tl-text" data-i18n="log1.text">原来的「一次多翻几格」用 <b>rand()</b> 随机挑格子，一旦挑不到能翻的，<b>while</b> 就永远转下去。改成先把真正可翻的邻居收进数组、只在里面抽，再补一个「一个都没有就直接返回」。然后拿 <b>200 个随机雷盘</b>把安全格全点一遍，<b>200 局全部判胜、0 局卡住</b>，才敢说它不死了。</p>
+    </article>
+  </div>
+</section>
+
+<!-- ============ 踩坑笔记（轮播） ============
+     不用库：原生 button + 少量 JS，键盘可达、悬停/聚焦自动暂停。
+     prefers-reduced-motion 时不自动播放，只留手动切换。 -->
+<section id="pitfalls">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="pit.eyebrow">Pitfalls</p>
+    <h2 class="section-title reveal" data-i18n="pit.title">踩坑笔记</h2>
+    <p class="section-lead reveal d1" data-i18n="pit.lead">每一条都是我真撞过的墙。能记住的坑，才不算白踩。</p>
+
+    <div class="carousel reveal d1" id="pitCarousel" role="group" aria-roledescription="carousel" aria-label="踩坑笔记">
+      <div class="car-track" id="pitTrack">
+        <article class="car-slide" role="group" aria-roledescription="slide" aria-label="1 / 6">
+          <span class="car-k mono">01</span>
+          <h3 data-i18n="pit1.t">while 空转：条件永远不成立</h3>
+          <p data-i18n="pit1.d">扫雷的「一次多翻几格」用 <b>rand()</b> 随机挑格子，挑不到能翻的，循环条件就永远为真。改成先把可翻的邻居收进数组，再补一句"一个都没有就直接返回"。</p>
+        </article>
+        <article class="car-slide" role="group" aria-roledescription="slide" aria-label="2 / 6">
+          <span class="car-k mono">02</span>
+          <h3 data-i18n="pit2.t">整数除法把小数吃掉了</h3>
+          <p data-i18n="pit2.d">分数数列求和输出一直不对：<b>1/2</b> 在整数世界里等于 <b>0</b>。把其中一个操作数写成 <b>1.0</b> 才对——这是第一次真切理解类型。</p>
+        </article>
+        <article class="car-slide" role="group" aria-roledescription="slide" aria-label="3 / 6">
+          <span class="car-k mono">03</span>
+          <h3 data-i18n="pit3.t">把「偏大 / 偏小」的边界写反</h3>
+          <p data-i18n="pit3.d">猜数字里猜 40 明明偏小，却提示偏大。范围越收越窄，却永远不含答案——查了半天才发现是判断方向反了。</p>
+        </article>
+        <article class="car-slide" role="group" aria-roledescription="slide" aria-label="4 / 6">
+          <span class="car-k mono">04</span>
+          <h3 data-i18n="pit4.t">数组边界：靠外圈全填 '0' 才碰巧正确</h3>
+          <p data-i18n="pit4.d"><b>count()</b> 数周围八格时会读到外圈下标。因为 <b>start()</b> 把整个 11×11 都填了 <b>'0'</b>，结果恰好是对的——属于"侥幸正确"，哪天外圈换成别的值就会出错。</p>
+        </article>
+        <article class="car-slide" role="group" aria-roledescription="slide" aria-label="5 / 6">
+          <span class="car-k mono">05</span>
+          <h3 data-i18n="pit5.t">改完代码没重启，以为白改了</h3>
+          <p data-i18n="pit5.d">补丁明明写进了文件，界面上却一点变化都没有。后来才想起要清缓存并重启进程——运行中的程序读的是启动那一刻的代码。</p>
+        </article>
+        <article class="car-slide" role="group" aria-roledescription="slide" aria-label="6 / 6">
+          <span class="car-k mono">06</span>
+          <h3 data-i18n="pit6.t">中文文件被按错编码读，字符串直接断掉</h3>
+          <p data-i18n="pit6.d">带中文注释的源文件被当成另一种编码读取，报的却是"字符串缺少终止符"这种牛头不对马嘴的错。先确认编码，再看语法错误。</p>
+        </article>
+      </div>
+
+      <div class="car-bar">
+        <button class="car-btn" type="button" id="pitPrev" aria-label="上一条">←</button>
+        <div class="car-dots" id="pitDots" role="tablist" aria-label="选择笔记"></div>
+        <button class="car-btn" type="button" id="pitNext" aria-label="下一条">→</button>
+        <span class="car-count mono" id="pitCount" aria-live="polite">1 / 6</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 我的起点 ============ -->
+<section id="journey">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="journey.eyebrow">Timeline</p>
+    <h2 class="section-title reveal" data-i18n="journey.title">我的起点</h2>
+    <p class="section-lead reveal d1" data-i18n="journey.lead">不算长的几个月，但每一步都还算数。</p>
+
+    <div class="journey-grid">
+     <div class="timeline">
+      <article class="tl-item reveal">
+        <div class="tl-head"><span class="tl-num">01</span><span class="tl-date">2026.09</span></div>
+        <h3 class="tl-title" data-i18n="journey.t1">进入杭州电子科技大学人工智能专业</h3>
+        <p class="tl-text" data-i18n="journey.d1">第一行 C 语言，第一次真正接触 AI。那时候还只会照着课本敲，但已经觉得这件事很有意思。</p>
+      </article>
+
+      <article class="tl-item reveal">
+        <div class="tl-head"><span class="tl-num">02</span><span class="tl-date">2026.09</span></div>
+        <h3 class="tl-title" data-i18n="journey.t2">开始补数学基础</h3>
+        <p class="tl-text" data-i18n="journey.d2">高数、线代、概率，慢慢啃。理解模型之前，先把语言学会。</p>
+      </article>
+
+      <article class="tl-item reveal">
+        <div class="tl-head"><span class="tl-num">03</span><span class="tl-date">2026.10</span></div>
+        <h3 class="tl-title" data-i18n="journey.t3">捣鼓的小项目</h3>
+        <p class="tl-text" data-i18n="journey.d3">把练习和笔记一点点搬进仓库：<a class="accent" href="https://gitee.com/morii_jiang/my-little-garden" target="_blank" rel="noopener">my-little-garden ↗</a></p>
+      </article>
+
+      <article class="tl-item now reveal">
+        <div class="tl-head"><span class="tl-num">NOW</span><span class="tl-date">2026.10</span></div>
+        <h3 class="tl-title" data-i18n="journey.tNow">现在这里：给扫雷收尾，同时补数据结构</h3>
+        <p class="tl-text" data-i18n="journey.dNow">自动展开刚修完，正在拿随机盘面反复验；下一步是把「一次多翻几格」从随机改成规则展开。</p>
+      </article>
+
+      <article class="tl-item pending reveal">
+        <div class="tl-head"><span class="tl-num">04</span><span class="tl-date">2026.??</span></div>
+        <h3 class="tl-title" data-i18n="journey.t4">接下来想做的事</h3>
+        <p class="tl-text" data-i18n="journey.d4">还在写，等你一起见证。</p>
+      </article>
+     </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 我的尝试 ============ -->
+<section id="attempts">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="attempts.eyebrow">Attempts</p>
+    <h2 class="section-title reveal" data-i18n="attempts.title">我的尝试</h2>
+    <p class="section-lead reveal d1" data-i18n="attempts.lead">都是练习，不是作品。代码很短，但每一段都是自己一行行敲出来、跑通了才算数。</p>
+
+    <div class="attempts-featured">
+      <article class="attempt reveal">
+        <div class="shot-badge">
+          <a href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Minesweeper.0" target="_blank" rel="noopener" data-zoom="minesweeper-console.png">
+            <picture>
+              <source srcset="minesweeper-console.webp" type="image/webp" />
+              <img src="minesweeper-console.png" width="2066" height="1998"
+                   alt="扫雷程序：game.c 源码与运行后的控制台盘面"
+                   data-i18n-alt="attempts.a1alt" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <span class="zoom-hint" aria-hidden="true" data-i18n="zoom.hint">点击放大</span>
+        </div>
+        <div class="attempt-meta"><span class="attempt-num">01</span><span class="chip">C</span></div>
+        <h3 data-i18n="attempts.a1h">扫雷</h3>
+        <p data-i18n="attempts.a1p">9×9 的盘面，10 颗雷随机布下。用一个 11×11 的数组把边界包起来，就不用单独处理越界；翻开格子时数它周围八格的雷数显示在格子上。把 71 个非雷格子全部翻开就算赢。菜单里选择开始还是退出，一局结束会回到菜单。目前是控制台版本，自动展开空格的功能还在写。</p>
+        <ul class="attempt-detail">
+          <li><span class="k" data-i18n="detail.kSkill">技术点</span><span data-i18n="attempts.a1s">11×11 包一圈边界，省掉所有越界判断；count() 数周围八格的雷，翻开的格子存成字符。</span></li>
+          <li><span class="k" data-i18n="detail.kTrap">踩过的坑</span><span data-i18n="attempts.a1t">「一次多翻几格」用 rand() 随机挑格子，挑不到能翻的就 while 空转；而且翻过的格子会被再翻一次，胜利格数就乱了。</span></li>
+          <li><span class="k" data-i18n="detail.kNext">下一步</span><span data-i18n="attempts.a1n">把随机捎带换成规则展开：翻到 0 就自动把周围八格一起翻，遇到数字格停。</span></li>
+        </ul>
+        <div class="cmd">
+          <code data-cmd="gcc game.c main.c -o game &amp;&amp; ./game">gcc game.c main.c -o game &amp;&amp; ./game</code>
+          <button class="do" type="button" data-i18n="detail.copy">复制</button>
+        </div>
+        <ul class="attempt-files">
+          <li><a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Minesweeper.0" target="_blank" rel="noopener">game.h</a></li>
+          <li><a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Minesweeper.0" target="_blank" rel="noopener">game.c</a></li>
+          <li><a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Minesweeper.0" target="_blank" rel="noopener">main.c</a></li>
+        </ul>
+        <a class="attempt-repo" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Minesweeper.0" target="_blank" rel="noopener" data-i18n="attempts.view">查看仓库 →</a>
+      </article>
+
+      <article class="attempt reveal d1">
+        <figure class="capture">
+          <a class="capture-inner" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/guess" target="_blank" rel="noopener" data-zoom="guess-console.png">
+            <picture>
+              <source srcset="guess-console.webp" type="image/webp" />
+              <img src="guess-console.png" width="1700" height="1888"
+                   alt="猜数字程序：main.c 源码与运行后的控制台输出"
+                   data-i18n-alt="attempts.a2alt" loading="lazy" decoding="async" />
+            </picture>
+          </a>
+          <span class="zoom-hint" aria-hidden="true" data-i18n="zoom.hint">点击放大</span>
+          <figcaption data-i18n="attempts.a2cap">猜中时控制台会告诉你一共猜了几次，并把答案和菜单一起重新打印出来。</figcaption>
+        </figure>
+        <div class="attempt-meta"><span class="attempt-num">02</span><span class="chip">C</span></div>
+        <h3 data-i18n="attempts.a2h">猜数字</h3>
+        <p data-i18n="attempts.a2p">随机生成 1 到 100 之间的一个数，每猜一次会告诉你「偏小」还是「偏大」，并把可选范围收窄成提示（猜 40 偏小就显示 40–100），越猜越接近。猜的次数有限，没猜中就直接公布答案。菜单用 do-while 写成，玩完一局可以接着再来。</p>
+        <ul class="attempt-detail">
+          <li><span class="k" data-i18n="detail.kSkill">技术点</span><span data-i18n="attempts.a2s">srand/rand 生成答案；每猜一次就把上下界往中间收，提示里直接显示当前范围；do-while 让菜单自己循环。</span></li>
+          <li><span class="k" data-i18n="detail.kTrap">踩过的坑</span><span data-i18n="attempts.a2t">把 40 猜成「偏大」的边界写反过一次，范围越收越窄却永远不含答案；次数用完忘了收尾，出现「没猜中也说恭喜」。</span></li>
+          <li><span class="k" data-i18n="detail.kNext">下一步</span><span data-i18n="attempts.a2n">把固定次数换成按难度给（10 次 / 5 次），再用二分法算出最少几步能必中。</span></li>
+        </ul>
+        <div class="cmd">
+          <code data-cmd="gcc game.c main.c -o guess &amp;&amp; ./guess">gcc game.c main.c -o guess &amp;&amp; ./guess</code>
+          <button class="do" type="button" data-i18n="detail.copy">复制</button>
+        </div>
+        <ul class="attempt-files">
+          <li><a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/guess" target="_blank" rel="noopener">game.h</a></li>
+          <li><a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/guess" target="_blank" rel="noopener">game.c</a></li>
+          <li><a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/guess" target="_blank" rel="noopener">main.c</a></li>
+        </ul>
+        <a class="attempt-repo" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/guess" target="_blank" rel="noopener" data-i18n="attempts.view">查看仓库 →</a>
+      </article>
+    </div>
+
+    <details class="collection reveal d2" id="attemptsCollection">
+      <summary>
+        <span class="col-mark" aria-hidden="true">▸</span>
+        <span class="col-title" data-i18n="attempts.colTitle">收纳集 · 其他练习</span>
+        <span class="col-count">10</span>
+      </summary>
+      <div class="collection-body">
+        <p class="collection-lead" data-i18n="attempts.colLead">这些是刚开始学 C 语言时按顺序写的练习，从判断到循环再到数组，基本按难度排下来。</p>
+        <p class="collection-lead" data-i18n="attempts.colHonest">早期练习，有几处边界和写反的判断我没回头改，就照原样留着——它们记录的是当时真实的样子。</p>
+        <p style="margin:0 0 var(--space-md)">
+          <button class="btn btn-ghost" type="button" id="attemptsToggle" aria-expanded="false"
+                  aria-controls="attemptsCollection" data-i18n="attempts.colShow">展开全部</button>
+        </p>
+        <div class="mini-grid">
+          <article class="mini">
+            <h4 data-i18n="attempts.m1">三个数排序</h4>
+            <p data-i18n="attempts.m1D">读入三个整数，用两次交换让它们从大到小输出。第一次写明白的两个变量怎么互换。</p>
+            <p class="mini-what" data-i18n="attempts.m1W"><b>练的是</b>：条件判断 + 变量的值传递。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Compare%20sizes" target="_blank" rel="noopener">Compare sizes/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m2">公历闰年判断</h4>
+            <p data-i18n="attempts.m2D">按「四年一闰、百年不闰、四百年再闰」的规则，筛出 1000–2000 年之间的所有闰年。第一个把逻辑条件串起来的练习。</p>
+            <p class="mini-what" data-i18n="attempts.m2W"><b>练的是</b>：逻辑与算术的混合判断 + 循环扫描年份。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Leap%20year" target="_blank" rel="noopener">Leap year/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m3">3 的倍数</h4>
+            <p data-i18n="attempts.m3D">最短的一个：循环步长直接设成 3，输出 3 到 100 之间所有 3 的倍数。</p>
+            <p class="mini-what" data-i18n="attempts.m3W"><b>练的是</b>：for 的步长完全可以不是 1。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Multiples%20of%203" target="_blank" rel="noopener">Multiples of 3/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m4">分数数列求和</h4>
+            <p data-i18n="attempts.m4D">累加 1/1 + 1/2 + … + 1/100，输出六位小数。也是在这里第一次踩到整数除法和浮点数的区别。</p>
+            <p class="mini-what" data-i18n="attempts.m4W"><b>练的是</b>：累加器 + 整数除法为什么会把小数吃掉。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Sum%20of%20fractions" target="_blank" rel="noopener">Sum of fractions/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m5">求十个数的平均值</h4>
+            <p data-i18n="attempts.m5D">读入十个数存进数组，先求和再除以 10。第一次用数组配 for 循环存取数据。</p>
+            <p class="mini-what" data-i18n="attempts.m5W"><b>练的是</b>：数组和 for 循环第一次配在一起。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/average" target="_blank" rel="noopener">average/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m6">交换两个数组</h4>
+            <p data-i18n="attempts.m6D">读入两组各十个数，逐位交换后分别打印。把「交换」这个动作从单个变量扩展到了整组数据。</p>
+            <p class="mini-what" data-i18n="attempts.m6W"><b>练的是</b>：两个数组同步遍历 + 交换写成循环。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/exchange" target="_blank" rel="noopener">exchange/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m7">1 到 100 里有几个 9</h4>
+            <p data-i18n="attempts.m7D">数出 1 到 100 中数字 9 出现的次数，个位和十位分别判断，所以 99 要算两次。</p>
+            <p class="mini-what" data-i18n="attempts.m7W"><b>练的是</b>：用 % 10 和 / 10 拆出一个数的每一位。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/find%209" target="_blank" rel="noopener">find 9/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m8">十个数里找最大</h4>
+            <p data-i18n="attempts.m8D">一边读一边比：把较大的值往后挪，扫描一遍后在末尾拿到最大值，不需要额外变量存最大值。</p>
+            <p class="mini-what" data-i18n="attempts.m8W"><b>练的是</b>：边读边比较，扫描一遍就拿到答案。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/find%20max%20in%2010" target="_blank" rel="noopener">find max in 10/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m9">100–200 之间的素数</h4>
+            <p data-i18n="attempts.m9D">只试除到 √i 就够，而且从 101 开始每次加 2 跳过偶数。第一个认真考虑「怎么算得更省」的练习。</p>
+            <p class="mini-what" data-i18n="attempts.m9W"><b>练的是</b>：嵌套循环 + 第一次为了"更快"改算法。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/prime%20number%20from%20100%20to%20200" target="_blank" rel="noopener">prime number from 100 to 200/main.c</a>
+          </article>
+          <article class="mini">
+            <h4 data-i18n="attempts.m10">最大公约数</h4>
+            <p data-i18n="attempts.m10D">两个数各取余数，从 1 试到较小者，保留最后一个能同时整除的数。用最朴素的办法拿到了答案。</p>
+            <p class="mini-what" data-i18n="attempts.m10W"><b>练的是</b>：枚举求公约数——后来才知道欧几里得能快得多。</p>
+            <a class="chip" href="https://gitee.com/morii_jiang/my-little-garden/tree/master/Greatest%20common%20divisor" target="_blank" rel="noopener">Greatest common divisor/main.c</a>
+          </article>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 在读的书 / 课 ============ -->
+<section id="reading">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="reading.eyebrow">Library</p>
+    <h2 class="section-title reveal" data-i18n="reading.title">在读的书 / 课</h2>
+    <p class="section-lead reveal d1" data-i18n="reading.lead">在读、看完、搁置都摆出来——停在半路也是真实进度。</p>
+
+    <ul class="reading">
+      <li class="reveal"><span class="st on" data-i18n="reading.on">在读</span><span class="book">《C 程序设计语言》</span><span class="why" data-i18n="reading.r1">第 4 章函数与程序结构，配课件啃。</span></li>
+      <li class="reveal d1"><span class="st on" data-i18n="reading.on">在读</span><span class="book" data-i18n="reading.b2">高数 / 线代 课堂讲义</span><span class="why" data-i18n="reading.r2">跟着课走，每周补一次笔记。</span></li>
+      <li class="reveal d1"><span class="st done" data-i18n="reading.done">看完</span><span class="book" data-i18n="reading.b3">C 语言基础语法（视频课）</span><span class="why" data-i18n="reading.r3">从变量到数组过了一遍，练习都敲过。</span></li>
+      <li class="reveal d2"><span class="st" data-i18n="reading.paused">搁置</span><span class="book" data-i18n="reading.b4">Python 快速入门</span><span class="why" data-i18n="reading.r4">先放一放，等 C 的数组写顺了再回来。</span></li>
+      <li class="reveal d2"><span class="st" data-i18n="reading.paused">搁置</span><span class="book" data-i18n="reading.b5">机器学习入门（公开课）</span><span class="why" data-i18n="reading.r5">看了三节，公式跟不上，先回去补数学。</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 正在学 ============ -->
+<section id="learning">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="learning.eyebrow">Learning</p>
+    <h2 class="section-title reveal" data-i18n="learning.title">正在学</h2>
+    <p class="section-lead reveal d1" data-i18n="learning.lead">不是“精通”，是“正在学”——把进度条压在真实的位置上。</p>
+
+    <!-- 3D 地球（纯 CSS）：球心是现在，环是从起点到现在的每一圈。装饰用，aria-hidden。 -->
+    <div class="globe-wrap reveal d1">
+      <div class="globe" aria-hidden="true">
+        <div class="ball"></div>
+        <div class="rings"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="core"></div>
+      </div>
+      <div class="globe-note">
+        <h3 data-i18n="globe.h">这是一圈圈转出来的</h3>
+        <p data-i18n="globe.p">中间那个点是现在。每一个环都是"又从头来了一遍"：装环境、写错、改对、再补一处。转得慢，但一直在转。</p>
+      </div>
+    </div>
+
+    <ul class="path reveal d1" aria-label="学习路线">
+      <li class="done" data-i18n="path.1">C 语言</li>
+      <li class="now" data-i18n="path.2">数据结构</li>
+      <li data-i18n="path.3">机器学习基础</li>
+      <li data-i18n="path.4">小模型实验</li>
+    </ul>
+
+    <div class="cards">
+      <article class="card reveal">
+        <div class="thumb mono">&lt;/&gt;</div>
+        <h3 data-i18n="learning.c1h">编程 · C 语言 / Python</h3>
+        <p data-i18n="learning.c1p">C 语言打语法和内存的底子；Python 用来写脚本、玩数据，学着从语法走到 NumPy。</p>
+        <div class="card-tags"><span class="chip">C</span><span class="chip">Python</span><span class="chip">VS Code</span></div>
+      </article>
+
+      <article class="card reveal d1">
+        <div class="thumb mono">∑ π</div>
+        <h3 data-i18n="learning.c2h">数学基础 · 高数 / 线代 / 概率</h3>
+        <p data-i18n="learning.c2p">高数、线代、概率，慢慢啃。想让公式在纸上成立，也想让它在代码里跑起来。</p>
+        <div class="card-tags"><span class="chip">Calculus</span><span class="chip">Linear Algebra</span><span class="chip">Probability</span></div>
+      </article>
+
+      <article class="card reveal d2">
+        <div class="thumb mono">{ }</div>
+        <h3 data-i18n="learning.c3h">工具与环境 · Git / Gitee / GitHub</h3>
+        <p data-i18n="learning.c3p">学会提交、回滚、开分支。让每一次练习都留下痕迹，而不是散落在硬盘里。</p>
+        <div class="card-tags"><span class="chip">Git</span><span class="chip">Gitee</span><span class="chip">GitHub</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 正在用的工具 ============ -->
+<section id="tools">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="tools.eyebrow">Toolbox</p>
+    <h2 class="section-title reveal" data-i18n="tools.title">正在用的工具</h2>
+    <p class="section-lead reveal d1" data-i18n="tools.lead">按“我用它做过多少事”来标刻度，而不是按“我希望自己会多少”。</p>
+
+    <div class="tools-grid" id="toolsGrid">
+      <!-- 进度条直接写在 HTML 里，不用 JS 渲染：
+           inline style 的宽度保证"禁用 JS 也看得见"，
+           CSS 的 width:0 + transition 让它在脚本跑起来后从 0 长出来。
+           改动数值时：.pct 的文字 与 .bar-fill 的 style 宽度 必须一致。 -->
+      <div class="card reveal">
+        <h3 data-i18n="tools.c1">编程</h3>
+        <p class="bar-note"><span data-i18n="tools.updatedAt">上次更新</span> <span class="mono">2026·10</span> · <span class="mono">+ 3%</span></p>
+        <div class="bar">
+          <div class="bar-top"><span class="name">Python</span><span class="pct">30%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-pct="30" style="--w:30%"></div></div>
+        </div>
+        <div class="bar">
+          <div class="bar-top"><span class="name" data-i18n="skill.c">C 语言</span><span class="pct">45%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-pct="45" style="--w:45%"></div></div>
+        </div>
+      </div>
+
+      <div class="card reveal d1">
+        <h3 data-i18n="tools.c2">工具</h3>
+        <div class="bar">
+          <div class="bar-top"><span class="name">Git</span><span class="pct">10%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-pct="10" style="--w:10%"></div></div>
+        </div>
+        <div class="bar">
+          <div class="bar-top"><span class="name">Gitee</span><span class="pct">80%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-pct="80" style="--w:80%"></div></div>
+        </div>
+        <div class="bar">
+          <div class="bar-top"><span class="name">GitHub</span><span class="pct">10%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-pct="10" style="--w:10%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="note reveal d2" data-i18n="tools.note">百分比诚实得有点扎眼，但它们会变。</p>
+  </div>
+</section>
+
+<!-- ============ 联系我 ============ -->
+<section id="contact">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="contact.eyebrow">Contact</p>
+    <h2 class="section-title reveal" data-i18n="contact.title">联系我</h2>
+    <p class="section-lead reveal d1" data-i18n="contact.lead">如果你也在学 AI，欢迎一起交流。</p>
+    <p class="section-lead reveal d1" style="margin-top:calc(var(--space-lg) * -1)" data-i18n="contact.want">最想要的信是这两种：一起学 AI 的朋友，聊今天踩了什么坑都行；以及能直接骂我代码的人——指出哪里写歪比夸我有用得多。</p>
+
+    <ul class="contact-links">
+      <li class="reveal"><a href="mailto:j2522247849@qq.com" data-copy="j2522247849@qq.com">
+        <span class="ico">@</span>
+        <span><span class="lbl" data-i18n="contact.email">邮箱</span><span class="val">j2522247849@qq.com</span></span>
+      </a></li>
+      <li class="reveal d1"><a href="https://gitee.com/morii_jiang" target="_blank" rel="noopener" data-copy="morii_jiang">
+        <span class="ico">G</span>
+        <span><span class="lbl">Gitee</span><span class="val">morii_jiang</span></span>
+      </a></li>
+      <li class="reveal d2"><a href="https://github.com/morii-jiang" target="_blank" rel="noopener" data-copy="morii-jiang">
+        <span class="ico">H</span>
+        <span><span class="lbl">GitHub</span><span class="val">morii-jiang</span></span>
+      </a></li>
+      <li class="reveal d3"><a href="#" id="wechatLink" data-copy="wxid_762p5fj6r9r222">
+        <span class="ico">W</span>
+        <span><span class="lbl" data-i18n="contact.wechat">微信</span><span class="val">wxid_762p5fj6r9r222</span></span>
+      </a></li>
+    </ul>
+
+    <form class="contact-form reveal d2" id="contactForm" novalidate>
+      <div class="field">
+        <label for="fname" data-i18n="form.name">姓名</label>
+        <input id="fname" name="name" type="text" required data-i18n-ph="form.namePh" placeholder="怎么称呼你？" />
+      </div>
+      <div class="field">
+        <label for="femail" data-i18n="form.email">邮箱</label>
+        <input id="femail" name="email" type="email" required data-i18n-ph="form.emailPh" placeholder="you@example.com" />
+      </div>
+      <div class="field">
+        <label for="fmsg" data-i18n="form.msg">留言</label>
+        <textarea id="fmsg" name="message" rows="4" required data-i18n-ph="form.msgPh" placeholder="想聊点什么？"></textarea>
+      </div>
+      <p class="tl-text" data-i18n="form.note" style="margin:0 0 var(--space-md);font-size:13px;color:var(--ink-tertiary)">
+        这个表单暂时没有接后端，按「发送」只会在这里给你一句回执。真要找我，直接用上面那封邮件最靠谱。
+      </p>
+      <button class="btn btn-primary" type="submit" data-i18n="form.submit">发送留言</button>
+      <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p data-i18n="footer.text">© 2026 姜瀚泽 · 用 HTML / CSS / JavaScript 手写 · 一名还在打基础的 AI 新生</p>
+    <p class="mono" style="margin:.5rem 0 0" data-i18n="footer.sub">my-little-garden · 慢慢长大</p>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="返回顶部">↑</button>
+
+<!-- 截图放大用（原生 dialog，浏览器自带焦点陷阱与 ESC 关闭） -->
+<dialog id="lightbox" aria-label="放大的截图">
+  <button class="close" type="button" id="lbClose" aria-label="关闭">✕</button>
+  <img id="lbImg" alt="" />
+  <p class="cap" id="lbCap"></p>
+</dialog>
+
+<script>
+/* =========================================================
+   1. 主题切换：暗色 / 亮色 / 跟随系统（三态循环）
+      head 里的内联脚本已经贴好初始值，这里只负责切换与图标。
+   ========================================================= */
+(function themeInit(){
+  var root = document.documentElement;
+  var btn  = document.getElementById('themeBtn');
+  var icon = document.getElementById('themeIcon');
+  var media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+  var ORDER = ['dark', 'light', 'auto'];
+
+  function current(){
+    var attr = root.getAttribute('data-theme');
+    return (attr === 'light' || attr === 'dark') ? attr : 'auto';
+  }
+  function sync(){
+    var c = current();
+    icon.textContent = c === 'dark' ? '☾' : c === 'light' ? '☀' : (media && media.matches ? '☀' : '☾');
+    btn.title = (c === 'auto' ? '跟随系统' : c === 'light' ? '亮色' : '暗色') + ' · 点击切换（暗 / 亮 / 跟随系统）';
+  }
+  sync();
+
+  btn.addEventListener('click', function(){
+    var next = ORDER[(ORDER.indexOf(current()) + 1) % ORDER.length];
+    if (next === 'auto') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', next);
+    try { localStorage.setItem('jh-theme', next); } catch(e){}
+    sync();
+    if (window.__drawNeural) window.__drawNeural();
+  });
+
+  // 跟随系统时，系统切换了要立刻跟上
+  if (media && media.addEventListener){
+    media.addEventListener('change', function(){
+      if (current() !== 'auto') return;
+      if (window.__drawNeural) window.__drawNeural();
+      sync();
+    });
+  }
+})();
+
+/* =========================================================
+   2. 中英文切换
+   ========================================================= */
+(function i18nInit(){
+  var zh = {
+    'nav.about':'关于','nav.now':'在做','nav.log':'日志','nav.reading':'在读','nav.journey':'起点','nav.learning':'正在学','nav.contact':'联系',
+    'hero.eyebrow':'杭州电子科技大学 · 人工智能专业',
+    'hero.hello':'你好，我是','hero.name':'姜瀚泽',
+    'hero.quote':'“一个刚进入 AI 世界的人，正在从<strong>‘调包’</strong>走向<strong>‘理解’</strong>。”',
+    'hero.btn1':'看看我在学什么 →','hero.btn2':'联系我','hero.scroll':'↓ 向下滚动，三分钟认识我',
+    'about.eyebrow':'关于','about.title':'关于我',
+    'about.lead':'刚入门 AI，数学和代码一起学。对模型、数据和工具都很好奇。',
+    'about.school':'<b>杭州电子科技大学</b> · 人工智能专业 · 2026 级',
+    'about.focus':'C 语言与 Python 并行推进，高数 / 线代慢慢啃；比起调通一个包，更想弄懂它为什么有效。',
+    'about.now':'把零散的知识写成代码，把写下的代码放进 <b>Gitee</b> 仓库里长成自己的小花园。',
+    'about.tag1':'「好奇」','about.tag2':'「不怕试错」','about.tag3':'「正在打基础」',
+    'journey.eyebrow':'时间线','journey.title':'我的起点',
+    'journey.lead':'不算长的几个月，但每一步都还算数。',
+    'journey.t1':'进入杭州电子科技大学人工智能专业',
+    'journey.d1':'第一行 C 语言，第一次真正接触 AI。那时候还只会照着课本敲，但已经觉得这件事很有意思。',
+    'journey.t2':'开始补数学基础',
+    'journey.d2':'高数、线代、概率，慢慢啃。理解模型之前，先把语言学会。',
+    'journey.t3':'捣鼓的小项目',
+    'journey.d3':'把练习和笔记一点点搬进仓库：<a class="accent" href="https://gitee.com/morii_jiang/my-little-garden" target="_blank" rel="noopener">my-little-garden ↗</a>',
+    'journey.t4':'接下来想做的事','journey.d4':'还在写，等你一起见证。',
+    'journey.tNow':'现在这里：给扫雷收尾，同时补数据结构',
+    'journey.dNow':'自动展开刚修完，正在拿随机盘面反复验；下一步是把「一次多翻几格」从随机改成规则展开。',
+    'now.eyebrow':'Now','now.title':'现在在做',
+    'now.lead':'这一栏比任何动画都更能说明我在哪：写一行就更新一行。',
+    'now.chip':'进行中','now.head':'给扫雷的自动展开收尾',
+    'now.kDoing':'在做','now.doing':'把「一次多翻几格」从随机捎带改成只看真正可翻的邻居，消掉原来的死循环。',
+    'now.kReading':'在读','now.reading':'《C 程序设计语言》第 4 章（函数与程序结构），配着课件慢慢啃。',
+    'now.kStuck':'卡在','now.stuck':'指针和数组的边界；还有 <b>count()</b> 里那个越界读——靠外圈全填 <b>\'0\'</b> 才碰巧得出对的结果。',
+    'log.eyebrow':'Log','log.title':'学习日志',
+    'log.lead':'只记真发生过的事。一条日志一篇小事，写不出细节就不写。',
+    'log1.title':'我怎么确认一个扫雷不会死循环',
+    'log1.text':'原来的「一次多翻几格」用 <b>rand()</b> 随机挑格子，一旦挑不到能翻的，<b>while</b> 就永远转下去。改成先把真正可翻的邻居收进数组、只在里面抽，再补一个「一个都没有就直接返回」。然后拿 <b>200 个随机雷盘</b>把安全格全点一遍，<b>200 局全部判胜、0 局卡住</b>，才敢说它不死了。',
+    'about.weak':'老实说：指针和数组的边界我还没真搞明白；递归只会在纸上推；英文报错得靠查。',
+    'detail.kSkill':'技术点','detail.kTrap':'踩过的坑','detail.kNext':'下一步','detail.copy':'复制',
+    'detail.copied':'已复制','detail.copyFail':'请手动复制','detail.copiedTo':'已复制',
+    'attempts.a1s':'11×11 包一圈边界，省掉所有越界判断；count() 数周围八格的雷，翻开的格子存成字符。',
+    'attempts.a1t':'「一次多翻几格」用 rand() 随机挑格子，挑不到能翻的就 while 空转；而且翻过的格子会被再翻一次，胜利格数就乱了。',
+    'attempts.a1n':'把随机捎带换成规则展开：翻到 0 就自动把周围八格一起翻，遇到数字格停。',
+    'attempts.a2s':'srand/rand 生成答案；每猜一次就把上下界往中间收，提示里直接显示当前范围；do-while 让菜单自己循环。',
+    'attempts.a2t':'把 40 猜成「偏大」的边界写反过一次，范围越收越窄却永远不含答案；次数用完忘了收尾，出现「没猜中也说恭喜」。',
+    'attempts.a2n':'把固定次数换成按难度给（10 次 / 5 次），再用二分法算出最少几步能必中。',
+    'attempts.colHonest':'早期练习，有几处边界和写反的判断我没回头改，就照原样留着——它们记录的是当时真实的样子。',
+    'attempts.m1W':'<b>练的是</b>：条件判断 + 变量的值传递。',
+    'attempts.m2W':'<b>练的是</b>：逻辑与算术的混合判断 + 循环扫描年份。',
+    'attempts.m3W':'<b>练的是</b>：for 的步长完全可以不是 1。',
+    'attempts.m4W':'<b>练的是</b>：累加器 + 整数除法为什么会把小数吃掉。',
+    'attempts.m5W':'<b>练的是</b>：数组和 for 循环第一次配在一起。',
+    'attempts.m6W':'<b>练的是</b>：两个数组同步遍历 + 交换写成循环。',
+    'attempts.m7W':'<b>练的是</b>：用 % 10 和 / 10 拆出一个数的每一位。',
+    'attempts.m8W':'<b>练的是</b>：边读边比较，扫描一遍就拿到答案。',
+    'attempts.m9W':'<b>练的是</b>：嵌套循环 + 第一次为了「更快」改算法。',
+    'attempts.m10W':'<b>练的是</b>：枚举求公约数——后来才知道欧几里得能快得多。',
+    'path.1':'C 语言','path.2':'数据结构','path.3':'机器学习基础','path.4':'小模型实验',
+    'reading.eyebrow':'Library','reading.title':'在读的书 / 课',
+    'reading.lead':'在读、看完、搁置都摆出来——停在半路也是真实进度。',
+    'reading.on':'在读','reading.done':'看完','reading.paused':'搁置',
+    'reading.r1':'第 4 章函数与程序结构，配课件啃。',
+    'reading.b2':'高数 / 线代 课堂讲义','reading.r2':'跟着课走，每周补一次笔记。',
+    'reading.b3':'C 语言基础语法（视频课）','reading.r3':'从变量到数组过了一遍，练习都敲过。',
+    'reading.b4':'Python 快速入门','reading.r4':'先放一放，等 C 的数组写顺了再回来。',
+    'reading.b5':'机器学习入门（公开课）','reading.r5':'看了三节，公式跟不上，先回去补数学。',
+    'pit.eyebrow':'Pitfalls','pit.title':'踩坑笔记',
+    'pit.lead':'每一条都是我真撞过的墙。能记住的坑，才不算白踩。',
+    'pit1.t':'while 空转：条件永远不成立',
+    'pit1.d':'扫雷的「一次多翻几格」用 <b>rand()</b> 随机挑格子，挑不到能翻的，循环条件就永远为真。改成先把可翻的邻居收进数组，再补一句「一个都没有就直接返回」。',
+    'pit2.t':'整数除法把小数吃掉了',
+    'pit2.d':'分数数列求和输出一直不对：<b>1/2</b> 在整数世界里等于 <b>0</b>。把其中一个操作数写成 <b>1.0</b> 才对——这是第一次真切理解类型。',
+    'pit3.t':'把「偏大 / 偏小」的边界写反',
+    'pit3.d':'猜数字里猜 40 明明偏小，却提示偏大。范围越收越窄，却永远不含答案——查了半天才发现是判断方向反了。',
+    'pit4.t':'数组边界：靠外圈全填 \'0\' 才碰巧正确',
+    'pit4.d':'<b>count()</b> 数周围八格时会读到外圈下标。因为 <b>start()</b> 把整个 11×11 都填了 <b>\'0\'</b>，结果恰好是对的——属于「侥幸正确」，哪天外圈换成别的值就会出错。',
+    'pit5.t':'改完代码没重启，以为白改了',
+    'pit5.d':'补丁明明写进了文件，界面上却一点变化都没有。后来才想起要清缓存并重启进程——运行中的程序读的是启动那一刻的代码。',
+    'pit6.t':'中文文件被按错编码读，字符串直接断掉',
+    'pit6.d':'带中文注释的源文件被当成另一种编码读取，报的却是「字符串缺少终止符」这种牛头不对马嘴的错。先确认编码，再看语法错误。',
+    'globe.h':'这是一圈圈转出来的',
+    'globe.p':'中间那个点是现在。每一个环都是「又从头来了一遍」：装环境、写错、改对、再补一处。转得慢，但一直在转。',
+    'zoom.hint':'点击放大',
+    'learning.eyebrow':'正在学','learning.title':'正在学',
+    'learning.lead':'不是“精通”，是“正在学”——把进度条压在真实的位置上。',
+    'attempts.eyebrow':'尝试',
+    'attempts.title':'我的尝试',
+    'attempts.lead':'都是练习，不是作品。代码很短，但每一段都是自己一行行敲出来、跑通了才算数。',
+    'attempts.a1alt':'扫雷程序：game.c 源码与运行后的控制台盘面',
+    'attempts.a1h':'扫雷',
+    'attempts.a1p':'9×9 的盘面，10 颗雷随机布下。用一个 11×11 的数组把边界包起来，就不用单独处理越界；翻开格子时数它周围八格的雷数显示在格子上。把 71 个非雷格子全部翻开就算赢。菜单里选择开始还是退出，一局结束会回到菜单。目前是控制台版本，自动展开空格的功能还在写。',
+    'attempts.a2h':'猜数字',
+    'attempts.a2alt':'猜数字程序：main.c 源码与运行后的控制台输出',
+    'attempts.a2cap':'猜中时控制台会告诉你一共猜了几次，并把答案和菜单一起重新打印出来。',
+    'attempts.a2p':'随机生成 1 到 100 之间的一个数，每猜一次会告诉你「偏小」还是「偏大」，并把可选范围收窄成提示（猜 40 偏小就显示 40–100），越猜越接近。猜的次数有限，没猜中就直接公布答案。菜单用 do-while 写成，玩完一局可以接着再来。',
+    'attempts.view':'查看仓库 →',
+    'attempts.colTitle':'收纳集 · 其他练习',
+    'attempts.colLead':'这些是刚开始学 C 语言时按顺序写的练习，从判断到循环再到数组，基本按难度排下来。',
+    'attempts.colShow':'展开全部',
+    'attempts.colHide':'收起',
+    'attempts.m1':'三个数排序',
+    'attempts.m2':'公历闰年判断',
+    'attempts.m3':'3 的倍数',
+    'attempts.m4':'分数数列求和',
+    'attempts.m5':'求十个数的平均值',
+    'attempts.m6':'交换两个数组',
+    'attempts.m7':'1 到 100 里有几个 9',
+    'attempts.m8':'十个数里找最大',
+    'attempts.m9':'100–200 之间的素数',
+    'attempts.m10':'最大公约数',
+    'attempts.m1D':'读入三个整数，用两次交换让它们从大到小输出。第一次写明白的两个变量怎么互换。',
+    'attempts.m2D':'按「四年一闰、百年不闰、四百年再闰」的规则，筛出 1000–2000 年之间的所有闰年。第一个把逻辑条件串起来的练习。',
+    'attempts.m3D':'最短的一个：循环步长直接设成 3，输出 3 到 100 之间所有 3 的倍数。',
+    'attempts.m4D':'累加 1/1 + 1/2 + … + 1/100，输出六位小数。也是在这里第一次踩到整数除法和浮点数的区别。',
+    'attempts.m5D':'读入十个数存进数组，先求和再除以 10。第一次用数组配 for 循环存取数据。',
+    'attempts.m6D':'读入两组各十个数，逐位交换后分别打印。把「交换」这个动作从单个变量扩展到了整组数据。',
+    'attempts.m7D':'数出 1 到 100 中数字 9 出现的次数，个位和十位分别判断，所以 99 要算两次。',
+    'attempts.m8D':'一边读一边比：把较大的值往后挪，扫描一遍后在末尾拿到最大值，不需要额外变量存最大值。',
+    'attempts.m9D':'只试除到 √i 就够，而且从 101 开始每次加 2 跳过偶数。第一个认真考虑「怎么算得更省」的练习。',
+    'attempts.m10D':'两个数各取余数，从 1 试到较小者，保留最后一个能同时整除的数。用最朴素的办法拿到了答案。',
+    'learning.c1h':'编程 · C 语言 / Python',
+    'learning.c1p':'C 语言打语法和内存的底子；Python 用来写脚本、玩数据，学着从语法走到 NumPy。',
+    'learning.c2h':'数学基础 · 高数 / 线代 / 概率',
+    'learning.c2p':'高数、线代、概率，慢慢啃。想让公式在纸上成立，也想让它在代码里跑起来。',
+    'learning.c3h':'工具与环境 · Git / Gitee / GitHub',
+    'learning.c3p':'学会提交、回滚、开分支。让每一次练习都留下痕迹，而不是散落在硬盘里。',
+    'tools.eyebrow':'工具箱','tools.title':'正在用的工具',
+    'tools.lead':'按“我用它做过多少事”来标刻度，而不是按“我希望自己会多少”。',
+    'tools.c1':'编程','tools.c2':'工具',
+    'tools.updatedAt':'上次更新','skill.c':'C 语言',
+    'tools.note':'百分比诚实得有点扎眼，但它们会变。',
+    'contact.eyebrow':'联系','contact.title':'联系我',
+    'contact.lead':'如果你也在学 AI，欢迎一起交流。',
+    'contact.want':'最想要的信是这两种：一起学 AI 的朋友，聊今天踩了什么坑都行；以及能直接骂我代码的人——指出哪里写歪比夸我有用得多。',
+    'contact.email':'邮箱','contact.wechat':'微信',
+    'form.name':'姓名','form.email':'邮箱','form.msg':'留言',
+    'form.namePh':'怎么称呼你？','form.emailPh':'you@example.com','form.msgPh':'想聊点什么？',
+    'form.note':'这个表单暂时没有接后端，按「发送」只会在这里给你一句回执。真要找我，直接用上面那封邮件最靠谱。',
+    'form.submit':'发送留言',
+    'form.ok':'谢谢你的留言，我会尽快回复。（当前为静态演示，未真正发送）',
+    'form.err':'请把姓名、邮箱和留言都填写完整。',
+    'form.bademail':'邮箱格式看起来不太对，再检查一下？',
+    'footer.text':'© 2026 姜瀚泽 · 用 HTML / CSS / JavaScript 手写 · 一名还在打基础的 AI 新生',
+    'footer.sub':'my-little-garden · 慢慢长大'
+  };
+
+  var en = {
+    'nav.about':'About','nav.now':'Now','nav.log':'Log','nav.reading':'Library','nav.journey':'Timeline','nav.learning':'Learning','nav.contact':'Contact',
+    'hero.eyebrow':'Hangzhou Dianzi University · Artificial Intelligence',
+    'hero.hello':"Hi, I'm",'hero.name':'Jiang Hanze',
+    'hero.quote':'“Someone who just stepped into the world of AI — moving from <strong>calling libraries</strong> toward <strong>understanding them</strong>.”',
+    'hero.btn1':'See what I am learning →','hero.btn2':'Get in touch','hero.scroll':'↓ Scroll down — three minutes to know me',
+    'about.eyebrow':'About','about.title':'About Me',
+    'about.lead':'New to AI, learning maths and code side by side. Curious about models, data and tools.',
+    'about.school':'<b>Hangzhou Dianzi University</b> · Artificial Intelligence · Class of 2026',
+    'about.focus':'Pushing C and Python forward together while grinding through calculus and linear algebra. More interested in why a model works than in making a package run.',
+    'about.now':'Turning scattered notes into code, and parking that code in my <b>Gitee</b> repo so it can grow into a small garden.',
+    'about.tag1':'"Curious"','about.tag2':'"Not afraid to fail"','about.tag3':'"Building foundations"',
+    'journey.eyebrow':'Timeline','journey.title':'Where I Started',
+    'journey.lead':'Only a few months, but every step counts.',
+    'journey.t1':'Joined the AI programme at Hangzhou Dianzi University',
+    'journey.d1':'My first line of C, my first real contact with AI. I was merely copying textbook code — and already found it fascinating.',
+    'journey.t2':'Started catching up on mathematics',
+    'journey.d2':'Calculus, linear algebra, probability — chewing through them slowly. Learn the language before the model.',
+    'journey.t3':'Little projects I tinker with',
+    'journey.d3':'Exercises and notes move into my repo bit by bit: <a class="accent" href="https://gitee.com/morii_jiang/my-little-garden" target="_blank" rel="noopener">my-little-garden ↗</a>',
+    'journey.t4':'What comes next','journey.d4':'Still being written — witness it with me.',
+    'journey.tNow':'Right here: wrapping up Minesweeper, starting data structures',
+    'journey.dNow':'The auto-expand fix just landed and is being re-tested against random boards. Next: swap the random pick for a proper flood fill.',
+    'now.eyebrow':'Now','now.title':'What I Am Doing Now',
+    'now.lead':'This section says where I actually am better than any animation could — it moves whenever I do.',
+    'now.chip':'In progress','now.head':'Finishing Minesweeper\'s auto-expand',
+    'now.kDoing':'Doing','now.doing':'Rewriting "reveal a few extra cells" so it only ever picks genuinely openable neighbours — that removes the old infinite loop.',
+    'now.kReading':'Reading','now.reading':'Chapter 4 of The C Programming Language (functions and program structure), slowly, with the lecture notes.',
+    'now.kStuck':'Stuck on','now.stuck':'Pointer and array bounds; and the out-of-range read inside <b>count()</b> — it only returns the right number because the whole outer ring happens to be filled with <b>\'0\'</b>.',
+    'log.eyebrow':'Log','log.title':'Learning Log',
+    'log.lead':'Only things that actually happened. One log, one small story — if I cannot give the details, I do not write it.',
+    'log1.title':'How I convinced myself a Minesweeper solver cannot hang',
+    'log1.text':'The original "reveal a few extra cells" picked random coordinates, and once it could not find an openable cell the <b>while</b> loop spun forever. I changed it to collect the genuinely openable neighbours first and only draw from that list, plus an early return for "nothing to reveal". Then I played <b>200 random boards</b> to completion: <b>200 wins, 0 hangs</b>. Only then did I trust it.',
+    'about.weak':'Honestly: pointer and array bounds still beat me. I can only do recursion on paper. English error messages need a search engine.',
+    'detail.kSkill':'Tech','detail.kTrap':'Pitfall','detail.kNext':'Next','detail.copy':'Copy',
+    'detail.copied':'Copied','detail.copyFail':'Copy manually','detail.copiedTo':'Copied',
+    'attempts.a1s':'An 11x11 array wraps the board, so no bounds checks anywhere; count() tallies the eight neighbours and each revealed cell is stored as a character.',
+    'attempts.a1t':'"Reveal a few extra cells" used rand() to pick coordinates; when it could not find an openable cell the while loop idled forever, and already-revealed cells got revealed twice, which threw the win counter off.',
+    'attempts.a1n':'Replace the random extra reveals with a real flood fill: a 0 cell opens its eight neighbours, and a numbered cell stops the spread.',
+    'attempts.a2s':'srand/rand picks the answer; every guess narrows the low and high bound and the prompt shows the current range; the do-while keeps the menu looping.',
+    'attempts.a2t':'I once flipped the boundary test for a guess of 40, so the range kept shrinking but never contained the answer; and I forgot to close out an exhausted run, so it congratulated me after a miss.',
+    'attempts.a2n':'Give the number of tries a difficulty setting (10 / 5), then work out the minimum guaranteed guesses with binary search.',
+    'attempts.colHonest':'Early exercises. A few bounds and inverted conditions I never went back to fix, kept exactly as they were — that is what they actually looked like then.',
+    'attempts.m1W':'<b>Trained</b>: conditionals and passing values between variables.',
+    'attempts.m2W':'<b>Trained</b>: mixing logic with arithmetic while scanning a range of years.',
+    'attempts.m3W':'<b>Trained</b>: a for loop step does not have to be 1.',
+    'attempts.m4W':'<b>Trained</b>: accumulators, and how integer division eats the decimals.',
+    'attempts.m5W':'<b>Trained</b>: arrays and for loops working together for the first time.',
+    'attempts.m6W':'<b>Trained</b>: walking two arrays in step, and turning a swap into a loop.',
+    'attempts.m7W':'<b>Trained</b>: splitting a number into digits with % 10 and / 10.',
+    'attempts.m8W':'<b>Trained</b>: comparing while reading, so one pass is enough.',
+    'attempts.m9W':'<b>Trained</b>: nested loops, and the first time I changed an algorithm to make it faster.',
+    'attempts.m10W':'<b>Trained</b>: brute-force common divisors — I only later found out how much faster Euclid is.',
+    'path.1':'C','path.2':'Data structures','path.3':'ML fundamentals','path.4':'Small model experiments',
+    'reading.eyebrow':'Library','reading.title':'Books and Courses',
+    'reading.lead':'Reading, finished, on hold — all of it out in the open. Stopping halfway is a real status too.',
+    'reading.on':'Reading','reading.done':'Finished','reading.paused':'On hold',
+    'reading.r1':'Chapter 4, functions and program structure, with the lecture notes.',
+    'reading.b2':'Calculus / linear algebra handouts','reading.r2':'Following the course, redoing my notes weekly.',
+    'reading.b3':'C basics (video course)','reading.r3':'Variables through arrays, every exercise typed out.',
+    'reading.b4':'Python in a hurry','reading.r4':'Parked it until arrays in C feel natural.',
+    'reading.b5':'Intro to machine learning (open course)','reading.r5':'Three lectures in, the maths outran me — back to calculus first.',
+    'pit.eyebrow':'Pitfalls','pit.title':'Pitfalls',
+    'pit.lead':'Every one of these is a wall I actually walked into. A pitfall I remember is a pitfall that paid for itself.',
+    'pit1.t':'A while loop with a condition that never comes true',
+    'pit1.d':'Minesweeper\'s "reveal a few extra cells" used <b>rand()</b> to pick coordinates; when it found nothing openable the loop condition stayed true forever. Fixed by collecting the openable neighbours first and returning early when there are none.',
+    'pit2.t':'Integer division ate the decimals',
+    'pit2.d':'The fraction sum kept printing the wrong number: in integer land <b>1/2</b> is <b>0</b>. Writing one operand as <b>1.0</b> fixed it — my first real lesson in types.',
+    'pit3.t':'Flipping the too-low / too-high boundary',
+    'pit3.d':'Guess-the-number said "too high" for a guess of 40 that was actually too low. The range kept shrinking and never contained the answer — it took a while to see the comparison was simply backwards.',
+    'pit4.t':'Array bounds that only worked by luck',
+    'pit4.d':'<b>count()</b> reads past the board edge when checking the eight neighbours. It returns the right number only because <b>start()</b> fills the whole 11×11 with <b>\'0\'</b> — correct by accident, and it would break the day that outer ring holds anything else.',
+    'pit5.t':'Edited the code, forgot to restart, assumed nothing worked',
+    'pit5.d':'The patch was definitely in the file, yet nothing changed on screen. Then it clicked: clear the cache and restart the process — a running program is still reading the code from the moment it started.',
+    'pit6.t':'A Chinese source file read as the wrong encoding',
+    'pit6.d':'The file was decoded as a different codepage and the error said "missing string terminator" — nothing to do with the real cause. Check the encoding before chasing a syntax error.',
+    'globe.h':'This was spun up one ring at a time',
+    'globe.p':'The dot in the middle is now. Every ring is another "started over from scratch": set up the environment, break it, fix it, patch one more thing. Slow, but still turning.',
+    'zoom.hint':'Click to enlarge',
+    'learning.eyebrow':'Learning','learning.title':'What I Am Learning',
+    'learning.lead':'Not “mastered” — “learning”. The bars stay where they honestly are.',
+    'attempts.eyebrow':'Attempts',
+    'attempts.title':'My Attempts',
+    'attempts.lead':'Exercises, not finished products. The code is short, but every line was typed and made to run.',
+    'attempts.a1alt':'Minesweeper: game.c source and the console board after a run',
+    'attempts.a1h':'Minesweeper',
+    'attempts.a1p':'A 9x9 board with 10 mines placed at random. An 11x11 array wraps the border so out-of-range checks are unnecessary; revealing a cell shows how many mines touch its eight neighbours. Clearing all 71 safe cells wins. The menu chooses play or exit, and finishing a round returns to it. Console version so far; auto-expanding blank areas is still on the list.',
+    'attempts.a2h':'Guess the number',
+    'attempts.a2alt':'Guess-the-number program: main.c source and the console output after a run',
+    'attempts.a2cap':'When you get it right the console reports how many guesses it took, then prints the answer and menu again.',
+    'attempts.a2p':'Picks a random number from 1 to 100. Each guess reports too low or too high and narrows the shown range (guess 40 when the answer is higher and it shows 40-100), so you close in. You get a limited number of tries; miss them all and it reveals the answer. The menu is a do-while loop, so a finished round rolls straight into the next.',
+    'attempts.view':'View in repo →',
+    'attempts.colTitle':'Collection · other exercises',
+    'attempts.colLead':'The exercises I wrote in order while starting out with C — conditions, then loops, then arrays, roughly by difficulty.',
+    'attempts.colShow':'Expand all',
+    'attempts.colHide':'Collapse',
+    'attempts.m1':'Sort three numbers',
+    'attempts.m2':'Leap year check',
+    'attempts.m3':'Multiples of 3',
+    'attempts.m4':'Sum of a fraction series',
+    'attempts.m5':'Average of ten numbers',
+    'attempts.m6':'Swap two arrays',
+    'attempts.m7':'How many 9s in 1-100',
+    'attempts.m8':'Max of ten numbers',
+    'attempts.m9':'Primes between 100 and 200',
+    'attempts.m10':'Greatest common divisor',
+    'attempts.m1D':'Reads three integers and orders them high to low with two swaps. My first real lesson in how two variables trade values.',
+    'attempts.m2D':'Applies the divisible-by-4 / not-by-100 / by-400 rule to list every leap year from 1000 to 2000 - my first taste of chaining logical conditions.',
+    'attempts.m3D':'The shortest one: step the loop by 3 and print every multiple of three up to 100.',
+    'attempts.m4D':'Accumulates 1/1 + 1/2 + ... + 1/100 to six decimals - and where I first hit the integer-vs-float division trap.',
+    'attempts.m5D':'Reads ten numbers into an array, sums then divides. My first exercise driving an array with a loop.',
+    'attempts.m6D':'Reads two ten-element arrays, swaps them element by element, prints both. Scaling the swap idea from one variable to a whole array.',
+    'attempts.m7D':'Counts every digit 9 in 1-100, checking the units and tens place separately so 99 counts twice.',
+    'attempts.m8D':'Compares as it reads, pushing the larger value forward so the maximum lands at the end after one pass - no extra variable needed.',
+    'attempts.m9D':'Trial-divides only up to sqrt(i) and skips even numbers by stepping by two. The first exercise where I thought about doing less work.',
+    'attempts.m10D':'Tests every divisor up to the smaller number and keeps the last one dividing both - the plainest possible route to the answer.',
+    'learning.c1h':'Programming · C / Python',
+    'learning.c1p':'C for syntax and memory fundamentals; Python for scripting and data, working from grammar up to NumPy.',
+    'learning.c2h':'Mathematics · Calculus / Linear Algebra / Probability',
+    'learning.c2p':'Chewing through them slowly. I want the formulas to hold on paper — and to run in code.',
+    'learning.c3h':'Tools · Git / Gitee / GitHub',
+    'learning.c3p':'Commit, revert, branch. Every practice session leaves a trace instead of drifting on a hard drive.',
+    'tools.eyebrow':'Toolbox','tools.title':'Tools I Actually Use',
+    'tools.lead':'Measured by what I have built with them, not by what I wish I knew.',
+    'tools.c1':'Programming','tools.c2':'Tools',
+    'tools.updatedAt':'Updated','skill.c':'C',
+    'tools.note':'The percentages are honest to the point of being uncomfortable — but they will change.',
+    'contact.eyebrow':'Contact','contact.title':'Get in Touch',
+    'contact.lead':'If you are learning AI too, let’s talk.',
+    'contact.want':'Two kinds of mail I want most: someone else learning AI who wants to swap notes on what broke today, and someone willing to tell me straight where my code is wrong — that helps far more than praise.',
+    'contact.email':'Email','contact.wechat':'WeChat',
+    'form.name':'Name','form.email':'Email','form.msg':'Message',
+    'form.namePh':'What should I call you?','form.emailPh':'you@example.com','form.msgPh':'What is on your mind?',
+    'form.note':'This form has no backend yet — pressing send only prints a receipt right here. The email above is the reliable way to reach me.',
+    'form.submit':'Send message',
+    'form.ok':'Thanks for writing — I will reply soon. (This static demo does not really send anything.)',
+    'form.err':'Please fill in your name, email and message.',
+    'form.bademail':'That email address looks off — mind checking it?',
+    'footer.text':'© 2026 Jiang Hanze · Hand-written in HTML / CSS / JavaScript · An AI freshman still building foundations',
+    'footer.sub':'my-little-garden · growing slowly'
+  };
+
+  var dict = { zh: zh, en: en };
+  var langBtn = document.getElementById('langBtn');
+  var root = document.documentElement;
+
+  function apply(lang){
+    var d = dict[lang] || zh;
+    root.setAttribute('data-lang', lang);
+    root.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key = el.getAttribute('data-i18n');
+      if (d[key] != null) el.innerHTML = d[key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+      var key = el.getAttribute('data-i18n-ph');
+      if (d[key] != null) el.setAttribute('placeholder', d[key]);
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function(el){
+      var key = el.getAttribute('data-i18n-alt');
+      if (d[key] != null) el.setAttribute('alt', d[key]);
+    });
+    langBtn.textContent = lang === 'zh' ? '中文 / EN' : 'EN / 中文';
+    if (window.__syncAttemptsToggle) window.__syncAttemptsToggle();
+    document.title = lang === 'zh' ? '姜瀚泽 · 一个刚进入 AI 世界的人' : 'Jiang Hanze · Entering the world of AI';
+    try { localStorage.setItem('jh-lang', lang); } catch(e){}
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem('jh-lang'); } catch(e){}
+  apply(saved === 'en' ? 'en' : 'zh');
+
+  window.__t = dict;
+
+  langBtn.addEventListener('click', function(){
+    apply(root.getAttribute('data-lang') === 'zh' ? 'en' : 'zh');
+  });
+
+  // 收纳集：按钮展开/收起，展开后一次性展示全部
+  (function collectionInit(){
+    var box = document.getElementById('attemptsCollection');
+    var btn = document.getElementById('attemptsToggle');
+    if (!box || !btn) return;
+    function sync(){
+      var open = box.hasAttribute('open');
+      var d = (window.__t && window.__t[document.documentElement.getAttribute('data-lang')]) || {};
+      btn.textContent = open ? (d['attempts.colHide'] || '收起') : (d['attempts.colShow'] || '展开全部');
+      btn.setAttribute('aria-expanded', String(open));
+    }
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      if (box.hasAttribute('open')) box.removeAttribute('open');
+      else box.setAttribute('open', '');
+      sync();
+    });
+    box.addEventListener('toggle', sync);
+    window.__syncAttemptsToggle = sync;
+    sync();
+  })();
+
+})();
+
+/* =========================================================
+   3. 导航：滚动模糊 / 当前区块高亮 / 汉堡菜单
+   ========================================================= */
+(function navInit(){
+  var header = document.getElementById('nav');
+  var links  = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+  var burger = document.getElementById('burger');
+  var navLinks = document.getElementById('navLinks');
+  var toTop = document.getElementById('toTop');
+
+  function onScroll(){
+    var y = window.scrollY || window.pageYOffset;
+    header.classList.toggle('scrolled', y > 24);
+    toTop.classList.toggle('show', y > 520);
+  }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive:true });
+
+  burger.addEventListener('click', function(){
+    var open = navLinks.classList.toggle('open');
+    burger.setAttribute('aria-expanded', String(open));
+    burger.textContent = open ? '✕' : '☰';
+  });
+  links.forEach(function(a){
+    a.addEventListener('click', function(){
+      navLinks.classList.remove('open');
+      burger.textContent = '☰';
+      burger.setAttribute('aria-expanded','false');
+    });
+  });
+
+  // 当前区块高亮（scrollspy）：覆盖导航里全部锚点。
+  // 做法：取"已经越过视口上三分之一"的最后一个区块，滚动时不会跳来跳去。
+  var sections = links
+    .map(function(a){ return document.querySelector(a.getAttribute('href')); })
+    .filter(Boolean);
+
+  function setActive(id){
+    links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#' + id); });
+  }
+
+  /**
+   * 当前区块高亮。
+   * 判据刻意用"区块顶是否已越过滚动位置"（line = scrollY + 100），
+   * 而不是"越过视口 1/3 高度"——后者对短区块会滞后：
+   * 「在读」整段只有约 500px 高，滚到它开头时它的顶才刚越线一点点，
+   * 而它前后区块的顶早已越线，结果高亮停在别处、看着像"点了没反应"。
+   * 改成与滚动位置挂钩后，点哪个锚点就点亮哪个，短区块也不会漏。
+   */
+  function spy(){
+    if (!sections.length) return;
+    var line = window.scrollY + 100;
+    var current = sections[0].id;
+    sections.forEach(function(s){
+      var top = s.getBoundingClientRect().top + window.scrollY;
+      if (top <= line) current = s.id;
+    });
+    // 滚到底时强制点亮最后一个（末尾区块可能永远越不过那条线）
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4){
+      current = sections[sections.length - 1].id;
+    }
+    setActive(current);
+  }
+  spy();
+  window.addEventListener('scroll', spy, { passive:true });
+  window.addEventListener('resize', spy);
+
+  toTop.addEventListener('click', function(){
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+})();
+
+/* =========================================================
+   3.5 关于「正在用的工具」那组进度条
+   ---------------------------------------------------------
+   数值刻意写死在 HTML 里（.pct 的文字 + .bar-fill 的内联宽度），
+   不走 JS 渲染。原因：进度条是内容，不是装饰 ——
+   之前用 JS 生成，一旦脚本哪步出岔，整组条就是 0 宽且毫无兜底。
+   现在禁用 JS 也照样看得见，脚本只负责"从 0 长出来"的动画。
+
+   改数值时只需改 HTML 里成对的两处，且必须一致：
+     <span class="pct">30%</span>
+     <div class="bar-fill" data-pct="30" style="width:30%">
+   html-check.mjs 会逐条校验这两个数字是否相等，防的就是
+   以前那种"标签写 70%、条只有 45%"的打架。
+   ========================================================= */
+
+/* =========================================================
+   4. 滚动进场 + 进度条动画
+   ========================================================= */
+(function revealInit(){
+  var items = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  var bars = Array.prototype.slice.call(document.querySelectorAll('.bar-fill'));
+
+  /* 到这里说明脚本确实跑起来了（CSS 默认是"可见"，防无 JS 白屏）。
+     现在只把"还没进视口"的元素收起来做淡入，已经看得见的一律保持可见，
+     避免出现"先看到内容、再突然消失、然后淡回来"的抖动。 */
+  document.documentElement.classList.add('js-anim');
+  var vh0 = window.innerHeight || document.documentElement.clientHeight;
+  items.forEach(function(el){
+    if (el.getBoundingClientRect().top >= vh0 - 8) el.classList.remove('visible');
+  });
+
+  function show(el){ el.classList.add('visible'); }
+  /* 进度条的目标宽度写在 --w（HTML 内联），这里把它落到实际的 width 上。
+     读不到 --w 就退回 data-pct —— 两条都坏掉的概率极低。 */
+  function setBar(b){
+    var w = (b.style.getPropertyValue('--w') || '').trim();
+    if (!w) w = (b.dataset.pct || 0) + '%';
+    setTimeout(function(){ b.style.width = w; }, 160);
+  }
+  function fillBars(){ bars.forEach(setBar); }
+  function inView(el){
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var vw = window.innerWidth || document.documentElement.clientWidth;
+    var r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < vh && r.right > 0 && r.left < vw;
+  }
+
+  // Scripts clearly ran, so never leave content hidden: elements already on
+  // screen are revealed immediately, and a timer guarantees the rest appear
+  // even if no observer callback ever arrives.
+  function sweep(){
+    var shown = 0;
+    items.forEach(function(el){
+      if (el.classList.contains('visible')) { shown++; return; }
+      if (inView(el)) show(el);
+    });
+    if (!shown && document.documentElement.scrollTop < 4){
+      document.documentElement.classList.add('no-observer');
+      console.warn('reveal: no observer hits; showing all content');
+    }
+  }
+
+  function flushAll(){
+    items.forEach(show);
+  }
+
+  if (!('IntersectionObserver' in window)){
+    flushAll(); fillBars(); return;
+  }
+
+  var io = new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      show(en.target);
+      obs.unobserve(en.target);
+    });
+  }, { threshold:0.12, rootMargin:'0px 0px -6% 0px' });
+  items.forEach(function(el){ io.observe(el); });
+
+  var barIO = new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      setBar(en.target);
+      obs.unobserve(en.target);
+    });
+  }, { threshold:0.35 });
+  bars.forEach(function(b){ barIO.observe(b); });
+
+  // Belt and braces: a first pass right away, then escalating safety nets.
+  sweep();
+  function schedule(){
+    if (document.readyState === 'complete') setTimeout(sweep, 350);
+    else window.addEventListener('load', function(){ setTimeout(sweep, 350); });
+  }
+  schedule();
+  setTimeout(sweep, 1200);
+  setTimeout(sweep, 2600);
+  setTimeout(function(){ if (!document.querySelector('.reveal.visible')) flushAll(); }, 4000);
+  setTimeout(fillBars, 1500);
+
+  window.addEventListener('scroll', sweep, { passive:true });
+  window.addEventListener('resize', sweep);
+})();
+
+/* =========================================================
+   5. 首屏神经网络节点动画
+   ========================================================= */
+(function neuralInit(){
+  var canvas = document.getElementById('neural');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var nodes = [], w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), raf = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 画布配色统一取自 --accent-blue / --accent-cyan（方案.txt 的蓝青双辅色）
+  function themeColors(){
+    var cs = getComputedStyle(document.documentElement);
+    function rgbOf(name, fallback){
+      var hex = (cs.getPropertyValue(name) || fallback).trim();
+      var m = /^#?([0-9a-f]{6})$/i.exec(hex);
+      if (!m) return fallback.replace('#', '').match(/../g).map(function(h){ return parseInt(h, 16); }).join(',') + ',';
+      var v = parseInt(m[1], 16);
+      return ((v >> 16) & 255) + ',' + ((v >> 8) & 255) + ',' + (v & 255) + ',';
+    }
+    var light = document.documentElement.getAttribute('data-theme') === 'light';
+    return {
+      dot: 'rgba(' + rgbOf('--accent-cyan', '#22d3ee') + (light ? 0.50 : 0.70) + ')',
+      line: 'rgba(' + rgbOf('--accent-blue', '#3b82f6'),
+      maxLine: light ? 0.22 : 0.19,
+      maxDot: light ? 0.50 : 0.66
+    };
+  }
+
+  function resize(){
+    var rect = canvas.parentElement.getBoundingClientRect();
+    w = rect.width; h = rect.height;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    var count = Math.round(Math.min(84, Math.max(26, (w * h) / 20000)));
+    nodes = [];
+    for (var i = 0; i < count; i++){
+      nodes.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.28,
+        vy: (Math.random() - 0.5) * 0.28,
+        r: Math.random() * 1.6 + 0.9
+      });
+    }
+  }
+
+  function step(){
+    var c = themeColors();
+    ctx.clearRect(0, 0, w, h);
+
+    for (var i = 0; i < nodes.length; i++){
+      var n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < -20) n.x = w + 20; if (n.x > w + 20) n.x = -20;
+      if (n.y < -20) n.y = h + 20; if (n.y > h + 20) n.y = -20;
+
+      for (var j = i + 1; j < nodes.length; j++){
+        var m = nodes[j];
+        var dx = n.x - m.x, dy = n.y - m.y;
+        var d2 = dx * dx + dy * dy;
+        if (d2 < 20000){
+          var a = (1 - d2 / 20000) * c.maxLine;
+          ctx.strokeStyle = c.line + a.toFixed(3) + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y); ctx.stroke();
+        }
+      }
+    }
+    for (var k = 0; k < nodes.length; k++){
+      var p = nodes[k];
+      ctx.fillStyle = c.dot + c.maxDot + ')';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+    }
+    raf = requestAnimationFrame(step);
+  }
+
+  function start(){
+    resize();
+    if (raf) cancelAnimationFrame(raf);
+    if (reduce){ step(); cancelAnimationFrame(raf); raf = null; return; }
+    step();
+  }
+  start();
+  window.__drawNeural = resize;
+
+  var t = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(t);
+    t = setTimeout(start, 180);
+  });
+
+  // 页面不可见时暂停，省电
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden){ if (raf){ cancelAnimationFrame(raf); raf = null; } }
+    else if (!reduce && !raf){ step(); }
+  });
+})();
+
+/* =========================================================
+   6. 联系表单（静态演示校验）
+   ========================================================= */
+(function formInit(){
+  var form = document.getElementById('contactForm');
+  var msg  = document.getElementById('formMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = form.name.value.trim();
+    var mail = form.email.value.trim();
+    var text = form.message.value.trim();
+    var d = (window.__t && window.__t[document.documentElement.getAttribute('data-lang')]) || {};
+    var ok = d['form.ok'] || 'OK';
+    var err = d['form.err'] || 'Please complete the form.';
+    var bad = d['form.bademail'] || 'Email looks invalid.';
+
+    if (!name || !mail || !text){ msg.style.color = 'var(--warm)'; msg.textContent = err; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){ msg.style.color = 'var(--warm)'; msg.textContent = bad; return; }
+    msg.style.color = 'var(--cyan)';
+    msg.textContent = ok;
+    form.reset();
+  });
+
+  /* 通用复制：给按钮加 .do 或 data-copy，或在链接上加 data-copy。
+     优先用 clipboard API，不可用（file:// 或旧浏览器）时退回 textarea + execCommand。 */
+  function copyText(text, done){
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(err){ ok = false; }
+      document.body.removeChild(ta);
+      done(ok);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, fallback);
+    } else fallback();
+  }
+
+  /* 统一的「已复制」提示：写到表单状态行，2.6 秒后恢复 */
+  function notify(text){
+    var prev = msg.textContent;
+    msg.style.color = 'var(--accent-cyan)';
+    msg.textContent = text;
+    clearTimeout(msg.__restore);
+    msg.__restore = setTimeout(function(){
+      if (msg.textContent === text) msg.textContent = prev;
+    }, 2600);
+  }
+
+  // 运行命令
+  Array.prototype.forEach.call(document.querySelectorAll('.cmd'), function(box){
+    var code = box.querySelector('code');
+    var doBtn = box.querySelector('.do');
+    if (!code || !doBtn) return;
+    var raw = code.getAttribute('data-cmd') || code.textContent;
+    doBtn.addEventListener('click', function(){
+      copyText(raw.trim(), function(ok){
+        var d = (window.__t && window.__t[document.documentElement.getAttribute('data-lang')]) || {};
+        doBtn.textContent = ok ? (d['detail.copied'] || '已复制') : (d['detail.copyFail'] || '请手动复制');
+        clearTimeout(doBtn.__t);
+        doBtn.__t = setTimeout(function(){ doBtn.textContent = d['detail.copy'] || '复制'; }, 1800);
+      });
+    });
+  });
+
+  // 邮箱 / Gitee / GitHub / 微信：点一下复制
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function(el){
+    el.addEventListener('click', function(e){
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;   // 留出"真跳转"的口子
+      e.preventDefault();
+      copyText(el.getAttribute('data-copy'), function(ok){
+        var d = (window.__t && window.__t[document.documentElement.getAttribute('data-lang')]) || {};
+        notify(ok ? (d['detail.copiedTo'] || '已复制') + '：' + el.getAttribute('data-copy')
+                  : (d['detail.copyFail'] || '复制失败，请手动选中'));
+      });
+    });
+  });
+
+  // 微信：点击复制（#wechatLink 已带 data-copy，通用处理会接管；
+  // 它 href="#" 只是想避免整页跳回顶部，通用处理里已经 preventDefault）
+})();
+
+/* =========================================================
+   7. 踩坑笔记轮播（原生，不引库）
+      键盘可达、悬停/聚焦/页面不可见时暂停自动播放；
+      prefers-reduced-motion 时关闭自动播放，只留手动。
+   ========================================================= */
+(function carouselInit(){
+  var box = document.getElementById('pitCarousel');
+  var track = document.getElementById('pitTrack');
+  if (!box || !track) return;
+  var slides = Array.prototype.slice.call(track.children);
+  var dotsBox = document.getElementById('pitDots');
+  var count = document.getElementById('pitCount');
+  var prev = document.getElementById('pitPrev');
+  var next = document.getElementById('pitNext');
+  if (!slides.length) return;
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var i = 0, timer = null, paused = false;
+  var INTERVAL = 9000;
+
+  var dots = slides.map(function (_, n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'car-dot';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', '第 ' + (n + 1) + ' 条');
+    b.addEventListener('click', function () { go(n, true); });
+    dotsBox.appendChild(b);
+    return b;
+  });
+
+  function sync() {
+    track.style.transform = 'translateX(' + (-i * 100) + '%)';
+    dots.forEach(function (d, n) { d.setAttribute('aria-selected', String(n === i)); });
+    count.textContent = (i + 1) + ' / ' + slides.length;
+    slides.forEach(function (s, n) { s.setAttribute('aria-hidden', String(n !== i)); });
+  }
+  function go(n, stop) {
+    i = (n + slides.length) % slides.length;
+    sync();
+    if (stop) stopAuto();
+  }
+  function stopAuto() { clearInterval(timer); timer = null; }
+  function startAuto() {
+    if (reduce || timer || paused) return;
+    timer = setInterval(function () {
+      if (paused || document.hidden) return;
+      go(i + 1);
+    }, INTERVAL);
+  }
+
+  prev.addEventListener('click', function () { go(i - 1, true); });
+  next.addEventListener('click', function () { go(i + 1, true); });
+
+  // 键盘：左右方向键
+  box.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1, true); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1, true); }
+  });
+  // 悬停 / 聚焦时暂停，离开后继续
+  function hold() { paused = true; }
+  function release() { paused = false; startAuto(); }
+  box.addEventListener('mouseenter', hold);
+  box.addEventListener('mouseleave', release);
+  box.addEventListener('focusin', hold);
+  box.addEventListener('focusout', release);
+
+  // 触摸滑动
+  var x0 = null;
+  box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; hold(); }, { passive: true });
+  box.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 42) go(i + (dx < 0 ? 1 : -1), true);
+    x0 = null; release();
+  }, { passive: true });
+
+  sync();
+  startAuto();
+})();
+
+/* =========================================================
+   8. 粒子烟雾（低开销、可降级）
+      降级条件（任一命中就不挂载）：
+        - prefers-reduced-motion
+        - 窄屏 / 触摸为主（移动端省电）
+        - navigator.hardwareConcurrency <= 4
+        - 页面不可见时暂停；canvas 与粒子数都很小
+   ========================================================= */
+(function smokeInit(){
+  var cv = document.getElementById('smoke');
+  if (!cv) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia && window.matchMedia('(max-width: 820px)').matches) return;
+  if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
+  var cores = navigator.hardwareConcurrency || 4;
+  if (cores <= 4) return;
+
+  var ctx = cv.getContext('2d');
+  if (!ctx) return;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var W = 0, H = 0, parts = [], raf = null;
+  var COUNT = 16;
+  var reduceData = false;
+
+  function theme() {
+    var cs = getComputedStyle(document.documentElement);
+    var hex = (cs.getPropertyValue('--accent-cyan') || '#22d3ee').trim();
+    var m = /^#?([0-9a-f]{6})$/i.exec(hex);
+    var r = 34, g = 211, b = 238;
+    if (m) { var v = parseInt(m[1], 16); r = (v >> 16) & 255; g = (v >> 8) & 255; b = v & 255; }
+    return r + ',' + g + ',' + b;
+  }
+  function resize() {
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.floor(W * dpr); cv.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    parts = [];
+    for (var k = 0; k < COUNT; k++) parts.push(spawn(true));
+  }
+  function spawn(anywhere) {
+    return {
+      x: Math.random() * W,
+      y: anywhere ? Math.random() * H : H + 24,
+      r: 26 + Math.random() * 54,
+      vy: -(0.08 + Math.random() * 0.18),
+      vx: (Math.random() - 0.5) * 0.10,
+      a: 0.020 + Math.random() * 0.026,
+      life: 0
+    };
+  }
+  function step() {
+    ctx.clearRect(0, 0, W, H);
+    var rgb = theme();
+    for (var k = 0; k < parts.length; k++) {
+      var p = parts[k];
+      p.x += p.vx; p.y += p.vy; p.life++;
+      if (p.y + p.r < 0 || p.x < -p.r * 2 || p.x > W + p.r * 2) { parts[k] = spawn(false); continue; }
+      var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      g.addColorStop(0, 'rgba(' + rgb + ',' + p.a.toFixed(3) + ')');
+      g.addColorStop(1, 'rgba(' + rgb + ',0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+    }
+    raf = requestAnimationFrame(step);
+  }
+  function start() { resize(); if (!raf) step(); }
+  function stop() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+  start();
+
+  window.addEventListener('resize', function () { clearTimeout(cv.__t); cv.__t = setTimeout(start, 220); });
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  // 尊重系统"省电/减少动效"的后续切换
+  var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  if (mq && mq.addEventListener) mq.addEventListener('change', function (e) { e.matches ? stop() : start(); });
+})();
+
+/* =========================================================
+   9. 加载遮罩收尾
+      永远不阻塞内容：短路超时 + load 事件 + 兜底计时器，
+      谁先到就淡出；即使某个资源永远不返回，也会在 1.8s 内消失。
+   ========================================================= */
+(function bootInit(){
+  var boot = document.getElementById('boot');
+  if (!boot || boot.dataset.active !== '1') return;
+  var done = false;
+  function finish() {
+    if (done) return;
+    done = true;
+    boot.classList.add('done');
+    setTimeout(function () { boot.setAttribute('hidden', ''); }, 520);
+  }
+  window.addEventListener('load', function () { setTimeout(finish, 180); });
+  setTimeout(finish, 1800);   // 硬上限：任何资源卡住都照常放行
+})();
+
+/* =========================================================
+   10. 截图点击放大
+       用原生 <dialog>：焦点陷阱、ESC 关闭都是浏览器给的，不用自己写。
+       点图 = 放大看；Ctrl/⌘/Shift 点击 = 照旧去仓库。
+       <dialog> 不被支持时（很老的浏览器）保持原链接行为，不做任何拦截。
+   ========================================================= */
+(function lightboxInit(){
+  var dlg = document.getElementById('lightbox');
+  var img = document.getElementById('lbImg');
+  var cap = document.getElementById('lbCap');
+  if (!dlg || !img || typeof dlg.showModal !== 'function') return;
+
+  document.querySelectorAll('a[data-zoom]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      var inner = a.querySelector('img');
+      if (!inner) return;
+      e.preventDefault();
+      // 放大用 WebP（更小），浏览器不支持就退回它当前显示的 PNG
+      img.src = a.getAttribute('data-zoom').replace(/\.png$/i, '.webp');
+      img.onerror = function () { img.onerror = null; img.src = inner.currentSrc || inner.src; };
+      img.alt = inner.getAttribute('alt') || '';
+      cap.textContent = (inner.getAttribute('alt') || '').slice(0, 80);
+      dlg.classList.add('open');
+      dlg.showModal();
+    });
+  });
+
+  function close() { dlg.classList.remove('open'); if (dlg.open) dlg.close(); }
+  document.getElementById('lbClose').addEventListener('click', close);
+  // 点遮罩（dialog 自身的空白区域）也关
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+  dlg.addEventListener('close', function () { dlg.classList.remove('open'); });
+  // 主题切换后重取图片颜色相关的样式不需要处理；只是清掉引用防内存泄漏
+  dlg.addEventListener('close', function () { setTimeout(function () { img.removeAttribute('src'); }, 300); });
+})();
+</script>
+</body>
+</html>
