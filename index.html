@@ -969,7 +969,32 @@ html[data-theme="light"] .hero::after{
   border-radius:var(--radius-lg);border:1px solid var(--hairline);background:var(--surface-1);
   transition:background .2s ease,border-color .2s ease;
 }
-.contact-links a:hover{background:var(--surface-2);border-color:var(--hairline-strong);}
+.contact-links a:hover{background:var(--surface-2);border-color:var(--hairline-strong);transform:translateY(-1px);}
+/* 能打开网址的那两张卡：卡片本身是链接，右上角另有一个小「复制」按钮 */
+.contact-links a.contact-open{cursor:pointer;position:relative;padding-right:44px;}
+.contact-links .contact-copy{
+  position:absolute;top:6px;right:6px;z-index:2;
+  padding:2px 7px;cursor:pointer;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--hairline);background:var(--surface-3);
+  color:var(--ink-subtle);font-family:var(--font-mono);font-size:11px;line-height:1.5;
+  transition:color .18s,border-color .18s,background .18s;
+}
+.contact-links .contact-copy:hover{color:var(--ink);border-color:var(--hairline-strong);background:var(--surface-4);}
+/* 悬浮提示：卡片上方冒出来，说明"点一下打开 / 角上是复制" */
+.contact-open::after{
+  content:attr(data-tip);
+  position:absolute;left:50%;bottom:calc(100% + 8px);translate:-50% 0;
+  padding:5px 10px;white-space:nowrap;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--hairline-strong);background:var(--surface-3);color:var(--ink);
+  font-size:12px;line-height:1.4;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .18s ease,visibility .18s ease;
+  z-index:3;
+}
+.contact-open:hover::after,
+.contact-open:focus-visible::after{opacity:1;visibility:visible;}
 .contact-links .ico{
   width:28px;height:28px;flex:none;display:grid;place-items:center;
   border-radius:var(--radius-sm);
@@ -1581,13 +1606,15 @@ html.js-anim .reveal.d3{transition-delay:.18s;}
         <span class="ico">@</span>
         <span><span class="lbl" data-i18n="contact.email">邮箱</span><span class="val">j2522247849@qq.com</span></span>
       </a></li>
-      <li class="reveal d1"><a href="https://gitee.com/morii_jiang" target="_blank" rel="noopener" data-copy="morii_jiang">
+      <li class="reveal d1"><a class="contact-open" href="https://gitee.com/morii_jiang" target="_blank" rel="noopener" data-tip="点一下打开 Gitee · 角上小按钮复制账号">
         <span class="ico">G</span>
         <span><span class="lbl">Gitee</span><span class="val">morii_jiang</span></span>
+        <button class="contact-copy" type="button" data-copy="morii_jiang" aria-label="复制 Gitee 账号">复制</button>
       </a></li>
-      <li class="reveal d2"><a href="https://github.com/morii-jing" target="_blank" rel="noopener" data-copy="morii-jing">
+      <li class="reveal d2"><a class="contact-open" href="https://github.com/morii-jing" target="_blank" rel="noopener" data-tip="点一下打开 GitHub · 角上小按钮复制账号">
         <span class="ico">H</span>
         <span><span class="lbl">GitHub</span><span class="val">morii-jing</span></span>
+        <button class="contact-copy" type="button" data-copy="morii-jing" aria-label="复制 GitHub 账号">复制</button>
       </a></li>
       <li class="reveal d3"><a href="#" id="wechatLink" data-copy="wxid_762p5fj6r9r222">
         <span class="ico">W</span>
@@ -2324,8 +2351,23 @@ html.js-anim .reveal.d3{transition-delay:.18s;}
     });
   });
 
-  // 邮箱 / Gitee / GitHub / 微信：点一下复制
-  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function(el){
+  // 能打开网址的那两张卡（Gitee / GitHub）：卡片本身点开新标签页；
+  // 角上那个小「复制」按钮只复制账号名，所以这里必须拦住冒泡，
+  // 否则事件会传到外层 <a>，把网址也一起打开。
+  Array.prototype.forEach.call(document.querySelectorAll('.contact-copy'), function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      copyText(btn.getAttribute('data-copy'), function(ok){
+        var d = (window.__t && window.__t[document.documentElement.getAttribute('data-lang')]) || {};
+        notify(ok ? (d['detail.copiedTo'] || '已复制') + '：' + btn.getAttribute('data-copy')
+                  : (d['detail.copyFail'] || '复制失败，请手动选中'));
+      });
+    });
+  });
+
+  // 邮箱 / 微信：点一下复制（排除上面已单独处理的 .contact-copy）
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]:not(.contact-copy)'), function(el){
     el.addEventListener('click', function(e){
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;   // 留出"真跳转"的口子
       e.preventDefault();
@@ -2337,7 +2379,7 @@ html.js-anim .reveal.d3{transition-delay:.18s;}
     });
   });
 
-  // 微信：点击复制（#wechatLink 已带 data-copy，通用处理会接管；
+  // 微信：点击复制（#wechatLink 带 data-copy，由上一条通用处理接管；
   // 它 href="#" 只是想避免整页跳回顶部，通用处理里已经 preventDefault）
 })();
 
